@@ -166,7 +166,6 @@ def main():
     if os.environ.get("GITHUB_EVENT_NAME") == "workflow_dispatch":
         monthly(approved_trades())
         return
-        )
         print("Test message sent")
         return
 
