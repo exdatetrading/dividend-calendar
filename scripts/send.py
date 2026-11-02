@@ -1,44 +1,9 @@
-"""Telegram calendar notifications sourced from data.json (not live market data)."""
-import json
-import os
-from datetime import date, datetime, timedelta
-from pathlib import Path
-from urllib.parse import urlencode
-from urllib.request import Request, urlopen
-from zoneinfo import ZoneInfo
-
-ROOT = Path(__file__).resolve().parents[1]
-NOW = datetime.now(ZoneInfo('America/New_York'))
-CALENDAR_URL = 'https://mariabrownrr-cell.github.io/dividend-calendar/'
-TIME_NOTE = '🕒 Все даты и время указаны по Нью-Йорку (ET).'
-DISCLAIMER = 'Предварительный календарный план. Проверяйте даты, рынок и условия до торговли.'
-
-
-def valid_date(value):
-    try:
-        return date.fromisoformat(value)
-    except (ValueError, TypeError):
-        return None
-
-
-def trading_day(day):
-    """Weekday approximation, NOT an authoritative exchange holiday calendar."""
-    if day.weekday() >= 5:
-        return False
-    # Major US closures relevant to the current calendar. Other markets differ.
-    if (day.month, day.day) in ((1, 1), (12, 25)):
-        return False
-    if day.month == 11 and day.weekday() == 3 and 22 <= day.day <= 28:
-        return False  # Thanksgiving
-    return True
-
 
 def adjacent_day(day, step):
-    current = day
     for _ in range(14):
-        current += timedelta(days=step)
-        if trading_day(current):
-            return current
+        day += timedelta(days=step)
+        if trading_day(day):
+            return day
     raise ValueError('Cannot find adjacent trading day')
 
 
@@ -46,117 +11,124 @@ def events():
     raw = json.loads((ROOT / 'data.json').read_text(encoding='utf-8'))
     if not isinstance(raw, list):
         raise ValueError('data.json must be a JSON array')
-    out = []
+    result = []
     for item in raw:
         if not isinstance(item, dict):
             continue
         ex = valid_date(item.get('ex'))
-        if ex is None:
+        ticker = str(item.get('ticker') or '').strip()
+        if not ex or not ticker:
             continue
-        ticker = str(item.get('platform') or item.get('ticker') or '').strip()
-        if not ticker:
-            continue
-        # Use the primary listing date. ADR dates are shown separately, not conflated.
-        out.append({
+        result.append({
             'ticker': ticker,
-            'exchange': str(item.get('ticker', ticker)),
-            'market': str(item.get('market', '')),
+            'name': str(item.get('name') or ticker),
+            'market': str(item.get('market') or ''),
             'ex': ex,
             'ex_adr': valid_date(item.get('exAdr')),
             'open': adjacent_day(ex, -1),
             'close': adjacent_day(ex, 1),
-            'source': str(item.get('source', '')),
         })
-    return sorted(out, key=lambda x: (x['ex'], x['ticker']))
+    return sorted(result, key=lambda x: (x['ex'], x['ticker']))
 
 
 def api(method, **kwargs):
     token = os.environ['TELEGRAM_BOT_TOKEN']
-    req = Request(
+    request = Request(
         f'https://api.telegram.org/bot{token}/{method}',
-        data=urlencode(kwargs).encode('utf-8'),
-        method='POST',
-    )
-    with urlopen(req, timeout=30) as response:
-        result = json.load(response)
-    if not result.get('ok'):
-        raise RuntimeError(result.get('description', 'Telegram API error'))
-    return result['result']
+        data=urlencode(kwargs).encode('utf-8'), method='POST')
+    with urlopen(request, timeout=30) as response:
+        payload = json.load(response)
+    if not payload.get('ok'):
+        raise RuntimeError(payload.get('description', 'Telegram API error'))
+    return payload['result']
 
 
-def send(text):
+def send(message):
     return api('sendMessage', chat_id=os.environ['TELEGRAM_CHAT_ID'],
-               text=text, disable_web_page_preview='true')
+               text=message, parse_mode='HTML', disable_web_page_preview='true')
 
 
-def chunks(lines, limit=3700):
-    result, current = [], ''
-    for line in lines:
-        if len(line) + 1 > limit:
-            raise ValueError('One message line exceeds Telegram limit')
-        if len(current) + len(line) + 1 > limit:
-            result.append(current.rstrip())
-            current = ''
-        current += line + '\n'
-    if current.strip():
-        result.append(current.rstrip())
-    return result
+def split_blocks(header, blocks, footer, limit=3700):
+    """Split only between complete HTML blocks, keeping tags balanced."""
+    parts = []
+    current = header
+    for block in blocks:
+        if len(header + block + footer) > limit:
+            raise ValueError('One event block exceeds Telegram message limit')
+        if len(current + block + footer) > limit:
+            parts.append(current + footer)
+            current = header
+        current += block
+    parts.append(current + footer)
+    return parts
+
+
+def item_label(e):
+    name = html.escape(e['name'])
+    ticker = html.escape(e['ticker'])
+    return f'<b>{ticker}</b>' if name.upper() == e['ticker'].upper() else f'<b>{ticker}</b> · {name}'
+
+
+def link_footer():
+    return f'\n🔗 <a href="{CALENDAR_URL}">Открыть полный календарь</a>\n\n<i>{NOTE}</i>'
 
 
 def monthly(all_events):
     selected = [e for e in all_events if (e['ex'].year, e['ex'].month) == (NOW.year, NOW.month)]
-    lines = [f'📅 Дивидендный календарь — {NOW:%m.%Y}', '', TIME_NOTE,
-             DISCLAIMER, '', f'Событий: {len(selected)}', '']
-    if not selected:
-        lines.append('Событий с объявленной датой Ex-dividend пока нет.')
+    header = (f'📊 <b>EX-DATE TRADING</b>\n'
+              f'<b>ДИВИДЕНДНЫЙ КАЛЕНДАРЬ · {NOW:%m.%Y}</b>\n'
+              f'━━━━━━━━━━━━━━\n'
+              f'📌 Событий: <b>{len(selected)}</b>\n\n')
+    blocks = []
     for e in selected:
-        lines.extend([
-            f"📌 {e['ticker']} ({e['exchange']}) — {e['market']}",
-            f"🟢 Ориентир открытия: {e['open']:%d.%m.%Y}",
-            f"📅 Ex-dividend: {e['ex']:%d.%m.%Y}",
-            f"🔴 Ориентир закрытия: {e['close']:%d.%m.%Y}",
-        ])
+        block = (f'📍 {item_label(e)}\n'
+                 f'🟢 Открытие: <b>{e["open"]:%d.%m}</b>\n'
+                 f'📅 Ex-date: <b>{e["ex"]:%d.%m}</b>\n'
+                 f'🔴 Закрытие: <b>{e["close"]:%d.%m}</b>\n')
         if e['ex_adr']:
-            lines.append(f"ADR/ADS Ex-dividend (если применимо): {e['ex_adr']:%d.%m.%Y}")
-        lines.append('')
-    lines.extend([f'Календарь: {CALENDAR_URL}', TIME_NOTE])
+            block += f'ADR/ADS: {e["ex_adr"]:%d.%m}\n'
+        blocks.append(block + '\n')
+    if not blocks:
+        blocks = ['Пока нет событий с объявленной датой.\n']
     first_id = None
-    for part in chunks(lines):
-        message = send(part)
+    for part in split_blocks(header, blocks, link_footer()):
+        result = send(part)
         if first_id is None:
-            first_id = message['message_id']
-    api('pinChatMessage', chat_id=os.environ['TELEGRAM_CHAT_ID'],
-            message_id=first_id, disable_notification='true')
-    print(f'Monthly calendar posted and pinned; events={len(selected)}')
+            first_id = result['message_id']
+ api('pinChatMessage', chat_id=os.environ['TELEGRAM_CHAT_ID'],
+        message_id=first_id, disable_notification='true')
+    print(f'Monthly posted and pinned; events={len(selected)}')
 
 
 def daily(all_events):
     today = NOW.date()
-    opens = [e for e in all_events if e['open'] == today]
-    closes = [e for e in all_events if e['close'] == today]
-    exs = [e for e in all_events if e['ex'] == today]
-    if not (opens or closes or exs):
+    groups = [
+        ('🟢 <b>ПЛАНОВОЕ ОТКРЫТИЕ</b>', [e for e in all_events if e['open'] == today], 'ex'),
+        ('📅 <b>EX-DIVIDEND СЕГОДНЯ</b>', [e for e in all_events if e['ex'] == today], 'ex'),
+        ('🔴 <b>ПЛАНОВОЕ ЗАКРЫТИЕ</b>', [e for e in all_events if e['close'] == today], 'ex'),
+    ]
+    if not any(group for _, group, _ in groups):
         print('No events today')
         return
-    lines = [f'📅 Дивидендный календарь — {today:%d.%m.%Y}', '', TIME_NOTE,
-             DISCLAIMER, '']
-    for title, group in [('🟢 Ориентир открытия', opens),
-                         ('📅 Ex-dividend сегодня', exs),
-                         ('🔴 Ориентир закрытия', closes)]:
-        if group:
-            lines.extend([title + ':', ''])
-            for e in group:
-                lines.append(f"• {e['ticker']} ({e['exchange']}), Ex-dividend {e['ex']:%d.%m.%Y}")
-            lines.append('')
-    lines.extend([f'Календарь: {CALENDAR_URL}', TIME_NOTE])
-    for part in chunks(lines):
+    header = (f'📊 <b>EX-DATE TRADING</b>\n'
+              f'<b>ПЛАН НА {today:%d.%m.%Y}</b>\n'
+              f'━━━━━━━━━━━━━━\n\n')
+    blocks = []
+    for title, group, _ in groups:
+        if not group:
+            continue
+        block = title + '\n'
+        for e in group:
+            block += f'• {item_label(e)} · Ex-date {e["ex"]:%d.%m}\n'
+        blocks.append(block + '\n')
+    for part in split_blocks(header, blocks, link_footer()):
         send(part)
-    print(f'Daily: open={len(opens)} ex={len(exs)} close={len(closes)}')
+    print('Daily posted')
 
 
 def main():
     all_events = events()
-    print(f'Loaded {len(all_events)} dated events from data.json')
+    print(f'Loaded {len(all_events)} dated events')
     if os.environ.get('GITHUB_EVENT_NAME') == 'workflow_dispatch':
         monthly(all_events)
         return
@@ -171,4 +143,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
