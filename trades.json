@@ -1,3 +1,127 @@
 {
-  "trades": []
+  "trades": [
+    {
+      "close_date": "2026-11-16",
+      "close_after": "09:30",
+      "source": "https://investor.starbucks.com/news/financial-releases/news-details/2026/Starbucks-Announces-Increase-in-Quarterly-Cash-Dividend/default.aspx",
+      "approved": false
+    },
+    {
+      "ticker": "SCHW",
+      "exchange_ticker": "SCHW",
+      "company": "SCHW",
+      "market": "США",
+      "open_date": "2026-11-12",
+      "open_before": "16:00",
+      "ex_date": "2026-11-13",
+      "close_date": "2026-11-16",
+      "close_after": "09:30",
+      "source": "https://stockanalysis.com/stocks/schw/dividend/",
+      "approved": false
+    },
+    {
+      "ticker": "Shell",
+      "exchange_ticker": "SHEL.L",
+      "company": "Shell",
+      "market": "Европа",
+      "open_date": "2026-11-12",
+      "open_before": "16:00",
+      "ex_date": "2026-11-13",
+      "close_date": "2026-11-16",
+      "close_after": "09:30",
+      "source": "https://www.shell.com/investors/dividend-information.html",
+      "approved": false
+    },
+    {
+      "ticker": "Unilever",
+      "exchange_ticker": "ULVR.L",
+      "company": "Unilever",
+      "market": "Европа",
+      "open_date": "2026-11-12",
+      "open_before": "16:00",
+      "ex_date": "2026-11-13",
+      "close_date": "2026-11-16",
+      "close_after": "09:30",
+      "source": "https://www.unilever.com/investors/investor-centre/dividends/",
+      "approved": false
+    },
+    {
+      "ticker": "CHEVRON",
+      "exchange_ticker": "CVX",
+      "company": "Chevron",
+      "market": "США",
+      "open_date": "2026-11-17",
+      "open_before": "16:00",
+      "ex_date": "2026-11-18",
+      "close_date": "2026-11-19",
+      "close_after": "09:30",
+      "source": "https://www.dividend101.com/ex-dividend-calendar",
+      "approved": false
+    },
+    {
+      "ticker": "MSFT",
+      "exchange_ticker": "MSFT",
+      "company": "MSFT",
+      "market": "США",
+      "open_date": "2026-11-18",
+      "open_before": "16:00",
+      "ex_date": "2026-11-19",
+      "close_date": "2026-11-20",
+      "close_after": "09:30",
+      "source": "https://www.microsoft.com/en-us/Investor/dividends-and-stock-history",
+      "approved": false
+    },
+    {
+      "ticker": "AMGN",
+      "exchange_ticker": "AMGN",
+      "company": "AMGN",
+      "market": "США",
+      "open_date": "2026-11-19",
+      "open_before": "16:00",
+      "ex_date": "2026-11-20",
+      "close_date": "2026-11-23",
+      "close_after": "09:30",
+      "source": "https://www.dividend101.com/ex-dividend-calendar",
+      "approved": false
+    },
+    {
+      "ticker": "JNJ",
+      "exchange_ticker": "JNJ",
+      "company": "JNJ",
+      "market": "США",
+      "open_date": "2026-11-23",
+      "open_before": "16:00",
+      "ex_date": "2026-11-24",
+      "close_date": "2026-11-25",
+      "close_after": "09:30",
+      "source": "https://investor.jnj.com/investor-news/news-details/2026/Johnson--Johnson-Announces-Quarterly-Dividend-for-Fourth-Quarter-2026/default.aspx",
+      "approved": false
+    },
+    {
+      "ticker": "TMUS",
+      "exchange_ticker": "TMUS",
+      "company": "TMUS",
+      "market": "США",
+      "open_date": "2026-11-24",
+      "open_before": "16:00",
+      "ex_date": "2026-11-25",
+      "close_date": "2026-11-26",
+      "close_after": "09:30",
+      "source": "https://dividendpedia.com/dividends-calendar/",
+      "approved": false
+    },
+    {
+      "ticker": "CSX",
+      "exchange_ticker": "CSX",
+      "company": "CSX",
+      "market": "США",
+      "open_date": "2026-11-27",
+      "open_before": "16:00",
+      "ex_date": "2026-11-30",
+      "close_date": "2026-12-01",
+      "close_after": "09:30",
+      "source": "https://dividendpedia.com/dividends-calendar/",
+      "approved": false
+    }
+  ]
 }
