@@ -1,5 +1,5 @@
 
-"""Monthly pinned calendar and daily trade notifications."""
+"""Telegram dividend notifications. Timezone: New York."""
 import json
 import os
 from datetime import datetime
@@ -10,85 +10,94 @@ from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parents[1]
 NOW = datetime.now(ZoneInfo("America/New_York"))
-BOT = os.environ.get("TELEGRAM_BOT_TOKEN")
-CHAT = os.environ.get("TELEGRAM_CHAT_ID")
-CALENDAR_URL = "https://mariabrownrr-cell.github.io/dividend-calendar/"
+URL = "https://mariabrownrr-cell.github.io/dividend-calendar/"
 
 
 def api(method, **kwargs):
-    if not BOT or not CHAT:
-        raise RuntimeError("Missing Telegram secrets")
+    token = os.environ["TELEGRAM_BOT_TOKEN"]
     request = Request(
-        f"https://api.telegram.org/bot{BOT}/{method}",
+        f"https://api.telegram.org/bot{token}/{method}",
         data=urlencode(kwargs).encode("utf-8"),
         method="POST",
     )
     with urlopen(request, timeout=25) as response:
         result = json.load(response)
+
     if not result.get("ok"):
-        raise RuntimeError(result.get("description"))
+        raise RuntimeError(result.get("description", "Telegram API error"))
     return result["result"]
 
 
-def send(text):
+def send(message):
     return api(
         "sendMessage",
-        chat_id=CHAT,
-        text=text,
+        chat_id=os.environ["TELEGRAM_CHAT_ID"],
+        text=message,
         disable_web_page_preview="true",
     )
 
 
-def approved_trades():
-    data = json.loads(
+def trades():
+    payload = json.loads(
         (ROOT / "trades.json").read_text(encoding="utf-8")
     )
-    return [t for t in data["trades"] if t.get("approved") is True]
+    return [
+        t for t in payload.get("trades", [])
+        if t.get("approved") is True
+    ]
 
 
-def monthly(trades):
+def monthly(items):
     month = NOW.strftime("%Y-%m")
     selected = sorted(
-        [t for t in trades if t.get("open_date", "").startswith(month)],
+        (
+            t for t in items
+            if t.get("open_date", "").startswith(month)
+        ),
         key=lambda t: (t["open_date"], t["ticker"]),
     )
 
     if not selected:
-        print("No approved trades this month")
+        print("No approved monthly trades:", month)
         return
 
     lines = [
-        f"План сделок на {NOW.strftime('%m.%Y')}",
+        f'План сделок на {NOW.strftime("%m.%Y")}',
         "",
         "Открытие позиций:",
         "",
     ]
 
     for t in selected:
-        date = datetime.fromisoformat(t["open_date"]).strftime("%d.%m")
+        date = datetime.fromisoformat(
+            t["open_date"]
+        ).strftime("%d.%m")
+
         lines.append(
             f'{date} — {t["ticker"].upper()} '
-            f'(Ex-dividend {t["ex_date"]})'
+            f'(Ex-dividend: {t["ex_date"]})'
         )
 
     lines.extend([
         "",
-        "Даты и условия уточняются перед торговлей.",
-        f"Календарь: {CALENDAR_URL}",
+        "Даты проверяются перед торговлей.",
+        f"Календарь: {URL}",
     ])
 
-    # Разбиваем длинный список на сообщения.
     chunks = []
     current = ""
+
     for line in lines:
         if len(current) + len(line) + 1 > 3800:
             chunks.append(current.rstrip())
             current = ""
         current += line + "\n"
+
     if current.strip():
         chunks.append(current.rstrip())
 
     first_id = None
+
     for chunk in chunks:
         result = send(chunk)
         if first_id is None:
@@ -96,56 +105,63 @@ def monthly(trades):
 
     api(
         "pinChatMessage",
-        chat_id=CHAT,
+        chat_id=os.environ["TELEGRAM_CHAT_ID"],
         message_id=first_id,
         disable_notification="true",
     )
-    print("Monthly plan published and pinned")
+
+    print("Monthly plan sent and pinned")
 
 
-def daily(trades):
+def daily(items):
     today = NOW.date().isoformat()
 
     openings = sorted(
-        [t for t in trades if t.get("open_date") == today],
+        (t for t in items if t.get("open_date") == today),
         key=lambda t: t["ticker"],
     )
+
     closings = sorted(
-        [t for t in trades if t.get("close_date") == today],
+        (t for t in items if t.get("close_date") == today),
         key=lambda t: t["ticker"],
     )
 
     if not openings and not closings:
-        print("No trades today")
+        print("No approved trades today:", today)
         return
 
     lines = [
         "Всем привет!",
         "",
-        f"План на {NOW.strftime('%d.%m.%Y')}",
+        f'План на {NOW.strftime("%d.%m.%Y")}',
     ]
 
     if openings:
         lines.extend(["", "Открытие сделок:"])
+
         for t in openings:
             lines.append(
-                f'{t["ticker"].upper()} — '
-                f'до {t.get("open_before", "16:00")} '
-                f'по Нью-Йорку.'
+                f'{t["ticker"].upper()} — до '
+                f'{t.get("open_before", "16:00")} '
+                "по Нью-Йорку."
             )
-            lines.append(f'Ex-dividend — {t["ex_date"]}.')
             lines.append(
-                f'Закрытие — {t["close_date"]} '
-                f'после {t.get("close_after", "09:30")}.'
+                f'Ex-dividend — {t["ex_date"]}.'
+            )
+            lines.append(
+                f'Закрытие — {t["close_date"]} после '
+                f'{t.get("close_after", "09:30")} '
+                "по Нью-Йорку."
             )
 
     if closings:
         lines.extend(["", "Планируемое закрытие:"])
+
         for t in closings:
             lines.append(
-                f'{t["ticker"].upper()} — '
-                f'после {t.get("close_after", "09:30")} '
-                f'по Нью-Йорку.'
+                f'{t["ticker"].upper()} — после '
+                f'{t.get("close_after", "09:30")} '
+                "по Нью-Йорку."
             )
 
     lines.extend([
@@ -155,34 +171,34 @@ def daily(trades):
     ])
 
     message = "\n".join(lines)
+
     if len(message) > 4096:
-        raise RuntimeError("Daily message exceeds Telegram limit")
+        raise ValueError("Telegram message too long")
+
     send(message)
-    print("Daily message sent")
+    print("Daily notification sent")
 
 
 def main():
-    # Ручной запуск отправляет только тест.
+    items = trades()
+
+    # Ручной запуск: публикуем и закрепляем месячный план.
     if os.environ.get("GITHUB_EVENT_NAME") == "workflow_dispatch":
-        monthly(approved_trades())
-        return
-        print("Test message sent")
+        monthly(items)
         return
 
-    # Проверяем время Нью-Йорка с учётом летнего времени.
+    # Автоматическая рассылка в 09:00 по Нью-Йорку.
     if NOW.hour != 9:
         print("Outside 09:00 New York window")
         return
 
-    trades = approved_trades()
-
-    # Первого числа публикуем и закрепляем месячный план.
+    # Первого числа — месячный план.
     if NOW.day == 1:
-        monthly(trades)
+        monthly(items)
 
-    # По будням публикуем сделки на сегодня.
+    # В будни — ежедневные уведомления.
     if NOW.weekday() < 5:
-        daily(trades)
+        daily(items)
 
 
 if __name__ == "__main__":
