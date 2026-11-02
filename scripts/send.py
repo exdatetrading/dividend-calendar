@@ -126,3 +126,49 @@ def monthly(all_events):
         if first_id is None:
             first_id = message['message_id']
     api('pinChatMessage', chat_id=os.environ['TELEGRAM_CHAT_ID'],
+            message_id=first_id, disable_notification='true')
+    print(f'Monthly calendar posted and pinned; events={len(selected)}')
+
+
+def daily(all_events):
+    today = NOW.date()
+    opens = [e for e in all_events if e['open'] == today]
+    closes = [e for e in all_events if e['close'] == today]
+    exs = [e for e in all_events if e['ex'] == today]
+    if not (opens or closes or exs):
+        print('No events today')
+        return
+    lines = [f'📅 Дивидендный календарь — {today:%d.%m.%Y}', '', TIME_NOTE,
+             DISCLAIMER, '']
+    for title, group in [('🟢 Ориентир открытия', opens),
+                         ('📅 Ex-dividend сегодня', exs),
+                         ('🔴 Ориентир закрытия', closes)]:
+        if group:
+            lines.extend([title + ':', ''])
+            for e in group:
+                lines.append(f"• {e['ticker']} ({e['exchange']}), Ex-dividend {e['ex']:%d.%m.%Y}")
+            lines.append('')
+    lines.extend([f'Календарь: {CALENDAR_URL}', TIME_NOTE])
+    for part in chunks(lines):
+        send(part)
+    print(f'Daily: open={len(opens)} ex={len(exs)} close={len(closes)}')
+
+
+def main():
+    all_events = events()
+    print(f'Loaded {len(all_events)} dated events from data.json')
+    if os.environ.get('GITHUB_EVENT_NAME') == 'workflow_dispatch':
+        monthly(all_events)
+        return
+    if NOW.hour != 9:
+        print('Outside 09:00 New York window')
+        return
+    if NOW.day == 1:
+        monthly(all_events)
+    if NOW.weekday() < 5:
+        daily(all_events)
+
+
+if __name__ == '__main__':
+    main()
+
