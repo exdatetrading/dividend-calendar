@@ -1,5 +1,6 @@
 
 """Telegram dividend notifications. Timezone: New York."""
+
 import json
 import os
 from datetime import datetime
@@ -15,16 +16,21 @@ URL = "https://mariabrownrr-cell.github.io/dividend-calendar/"
 
 def api(method, **kwargs):
     token = os.environ["TELEGRAM_BOT_TOKEN"]
+
     request = Request(
         f"https://api.telegram.org/bot{token}/{method}",
         data=urlencode(kwargs).encode("utf-8"),
         method="POST",
     )
+
     with urlopen(request, timeout=25) as response:
         result = json.load(response)
 
     if not result.get("ok"):
-        raise RuntimeError(result.get("description", "Telegram API error"))
+        raise RuntimeError(
+            result.get("description", "Telegram API error")
+        )
+
     return result["result"]
 
 
@@ -41,6 +47,7 @@ def trades():
     payload = json.loads(
         (ROOT / "trades.json").read_text(encoding="utf-8")
     )
+
     return [
         t for t in payload.get("trades", [])
         if t.get("approved") is True
@@ -49,12 +56,14 @@ def trades():
 
 def monthly(items):
     month = NOW.strftime("%Y-%m")
+
+    # Выбираем сделки по Ex-dividend, а не по дате открытия.
     selected = sorted(
         (
             t for t in items
-            if t.get("open_date", "").startswith(month)
+            if t.get("ex_date", "").startswith(month)
         ),
-        key=lambda t: (t["open_date"], t["ticker"]),
+        key=lambda t: (t["ex_date"], t["ticker"]),
     )
 
     if not selected:
@@ -64,23 +73,37 @@ def monthly(items):
     lines = [
         f'План сделок на {NOW.strftime("%m.%Y")}',
         "",
-        "Открытие позиций:",
+        "Планируемые открытия и закрытия:",
         "",
     ]
 
     for t in selected:
-        date = datetime.fromisoformat(
+        ticker = t["ticker"].upper()
+
+        open_date = datetime.fromisoformat(
             t["open_date"]
         ).strftime("%d.%m")
 
-        lines.append(
-            f'{date} — {t["ticker"].upper()} '
-            f'(Ex-dividend: {t["ex_date"]})'
-        )
+        ex_date = datetime.fromisoformat(
+            t["ex_date"]
+        ).strftime("%d.%m")
+
+        close_date = datetime.fromisoformat(
+            t["close_date"]
+        ).strftime("%d.%m")
+
+        lines.extend([
+            f"{ticker}",
+            f"Открытие: {open_date}",
+            f"Ex-dividend: {ex_date}",
+            f"Закрытие: {close_date}",
+            "",
+        ])
 
     lines.extend([
+        "Все даты и условия проверяются перед торговлей.",
+        "Дивиденды не гарантируют прибыль.",
         "",
-        "Даты проверяются перед торговлей.",
         f"Календарь: {URL}",
     ])
 
@@ -89,8 +112,10 @@ def monthly(items):
 
     for line in lines:
         if len(current) + len(line) + 1 > 3800:
-            chunks.append(current.rstrip())
+            if current.strip():
+                chunks.append(current.rstrip())
             current = ""
+
         current += line + "\n"
 
     if current.strip():
@@ -100,6 +125,7 @@ def monthly(items):
 
     for chunk in chunks:
         result = send(chunk)
+
         if first_id is None:
             first_id = result["message_id"]
 
@@ -117,12 +143,18 @@ def daily(items):
     today = NOW.date().isoformat()
 
     openings = sorted(
-        (t for t in items if t.get("open_date") == today),
+        (
+            t for t in items
+            if t.get("open_date") == today
+        ),
         key=lambda t: t["ticker"],
     )
 
     closings = sorted(
-        (t for t in items if t.get("close_date") == today),
+        (
+            t for t in items
+            if t.get("close_date") == today
+        ),
         key=lambda t: t["ticker"],
     )
 
@@ -137,37 +169,52 @@ def daily(items):
     ]
 
     if openings:
-        lines.extend(["", "Открытие сделок:"])
+        lines.extend([
+            "",
+            "Открытие сделок:",
+            "",
+        ])
 
         for t in openings:
-            lines.append(
-                f'{t["ticker"].upper()} — до '
-                f'{t.get("open_before", "16:00")} '
-                "по Нью-Йорку."
-            )
-            lines.append(
-                f'Ex-dividend — {t["ex_date"]}.'
-            )
-            lines.append(
-                f'Закрытие — {t["close_date"]} после '
-                f'{t.get("close_after", "09:30")} '
-                "по Нью-Йорку."
-            )
+            lines.extend([
+                f'{t["ticker"].upper()}',
+                (
+                    "Открытие до "
+                    f'{t.get("open_before", "16:00")} '
+                    "по Нью-Йорку."
+                ),
+                f'Ex-dividend: {t["ex_date"]}',
+                (
+                    f'Закрытие: {t["close_date"]} '
+                    "после "
+                    f'{t.get("close_after", "09:30")}'
+                ),
+                "",
+            ])
 
     if closings:
-        lines.extend(["", "Планируемое закрытие:"])
+        lines.extend([
+            "",
+            "Закрытие сделок:",
+            "",
+        ])
 
         for t in closings:
-            lines.append(
-                f'{t["ticker"].upper()} — после '
-                f'{t.get("close_after", "09:30")} '
-                "по Нью-Йорку."
-            )
+            lines.extend([
+                f'{t["ticker"].upper()}',
+                (
+                    "Закрытие после "
+                    f'{t.get("close_after", "09:30")} '
+                    "по Нью-Йорку."
+                ),
+                "",
+            ])
 
     lines.extend([
-        "",
-        "Даты и условия проверяйте перед торговлей.",
+        "Проверяйте актуальные даты и условия.",
         "Дивиденды не гарантируют прибыль.",
+        "",
+        f"Календарь: {URL}",
     ])
 
     message = "\n".join(lines)
@@ -176,13 +223,14 @@ def daily(items):
         raise ValueError("Telegram message too long")
 
     send(message)
+
     print("Daily notification sent")
 
 
 def main():
     items = trades()
 
-    # Ручной запуск: публикуем и закрепляем месячный план.
+    # Ручной запуск публикует месячный план.
     if os.environ.get("GITHUB_EVENT_NAME") == "workflow_dispatch":
         monthly(items)
         return
@@ -192,11 +240,11 @@ def main():
         print("Outside 09:00 New York window")
         return
 
-    # Первого числа — месячный план.
+    # Первого числа публикуем месячный план.
     if NOW.day == 1:
         monthly(items)
 
-    # В будни — ежедневные уведомления.
+    # По будням отправляем план открытий и закрытий.
     if NOW.weekday() < 5:
         daily(items)
 
