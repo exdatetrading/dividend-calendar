@@ -1,11 +1,19 @@
+
 name: Dividend notifications
+
 on:
   schedule:
-    - cron: '0 13 * * 1-5'
-    - cron: '0 14 * * 1-5'
+    - cron: '0 13 * * *'
+    - cron: '0 14 * * *'
   workflow_dispatch:
+
 permissions:
   contents: read
+
+concurrency:
+  group: dividend-notifications
+  cancel-in-progress: false
+
 jobs:
   notify:
     runs-on: ubuntu-latest
@@ -14,7 +22,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Send approved trades at 09:00 New York
+      - name: Publish monthly plan and daily approved trades
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
