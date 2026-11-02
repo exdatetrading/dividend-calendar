@@ -163,11 +163,9 @@ def daily(trades):
 
 def main():
     # Ручной запуск отправляет только тест.
-    if os.environ.get("GITHUB_EVENT_NAME") == "workflow_dispatch":
-        send(
-            "Тестовое уведомление Ex-Date Trading\n\n"
-            "Бот подключён.\n"
-            f"Календарь: {CALENDAR_URL}"
+  if os.environ.get("GITHUB_EVENT_NAME") == "workflow_dispatch":
+    monthly(approved_trades())
+    return
         )
         print("Test message sent")
         return
