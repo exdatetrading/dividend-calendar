@@ -1,0 +1,59 @@
+
+name: Test FMP Dividend API
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check dividend calendar access
+        env:
+          FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
+        run: |
+          python - <<'PY'
+          import os
+          import json
+          import urllib.parse
+          import urllib.request
+          import urllib.error
+          from datetime import date, timedelta
+
+          key = os.environ.get("FMP_API_KEY", "")
+          if not key:
+              raise SystemExit("FMP_API_KEY is missing")
+
+          start = date.today()
+          end = start + timedelta(days=30)
+
+          params = urllib.parse.urlencode({
+              "from": start.isoformat(),
+              "to": end.isoformat(),
+              "apikey": key
+          })
+          url = (
+              "https://financialmodelingprep.com"
+              "/stable/dividends-calendar?" + params
+          )
+
+          try:
+              with urllib.request.urlopen(url, timeout=30) as response:
+                  data = json.load(response)
+          except urllib.error.HTTPError as error:
+              print("HTTP status:", error.code)
+              raise SystemExit("FMP request failed")
+
+          if isinstance(data, list):
+              print("SUCCESS")
+              print("Dividend events returned:", len(data))
+              if data:
+                  print("Sample fields:", list(data[0].keys()))
+          else:
+              print("Unexpected response:")
+              print(str(data)[:500])
+              raise SystemExit("API access needs checking")
+          PY
