@@ -1,18 +1,357 @@
-<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0b1324"><title>Дивидендный календарь</title><style>
-:root{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#ecf3ff;background:#0b1324}*{box-sizing:border-box}body{margin:0}main{max-width:750px;margin:auto;padding:24px 16px 50px}.eyebrow{font-size:11px;letter-spacing:2px;color:#78a8e8;font-weight:700}.head{display:flex;justify-content:space-between;align-items:center;gap:8px}h1{font-size:26px;margin:8px 0 5px;letter-spacing:-.7px}p{color:#98a8bf;line-height:1.5}.pill{border:1px solid #2a3d59;background:#17253b;border-radius:99px;padding:8px 12px;color:#c3d5ed;font-size:12px}.controls{display:flex;gap:8px;margin:23px 0 18px;flex-wrap:wrap}button{cursor:pointer;font:inherit}button.tab{background:#15243a;border:1px solid #263953;color:#aabbd2;padding:10px 15px;border-radius:12px}button.tab.active{background:#2563eb;color:#fff;border-color:#2563eb}.month{display:flex;align-items:center;justify-content:space-between;margin:14px 0}.month h2{font-size:20px;text-transform:capitalize;margin:0}.arrow{background:#17263e;border:1px solid #293e5a;color:white;width:38px;height:38px;border-radius:10px;font-size:23px}.calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}.weekday{text-align:center;color:#8397b1;font-size:12px;padding:10px 0}.day{height:64px;border:1px solid #1e2d44;background:#121e31;border-radius:11px;color:#dce8fa;text-align:left;padding:9px 7px;position:relative}.day.empty{border-color:transparent;background:transparent}.day.has{border-color:#335477;background:#1a304b}.day.selected{border-color:#62a4ff;background:#1a4b8c}.num{font-size:13px;font-weight:600}.dot{position:absolute;bottom:9px;left:9px;width:6px;height:6px;border-radius:50%;background:#61d4ad}.count{position:absolute;bottom:7px;right:7px;font-size:10px;color:#9fc4f5}.section{margin-top:24px}.sectionhead{display:flex;justify-content:space-between;align-items:center}.sectionhead h3{font-size:17px}.muted{color:#8fa3be;font-size:13px}.item{background:#142238;border:1px solid #273a54;border-radius:15px;padding:16px;margin:10px 0}.itemtop{display:flex;justify-content:space-between;align-items:start;gap:12px}.ticker{font-size:19px;font-weight:800}.market{font-size:11px;color:#a3b7d3;background:#223751;padding:5px 9px;border-radius:8px}.name{color:#99abc4;font-size:13px;margin:4px 0 12px}.meta{display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px}.meta small{display:block;color:#8196b2;margin-bottom:5px}.meta strong{font-size:14px;font-weight:600}.source{display:inline-block;margin-top:14px;color:#80b6ff;font-size:12px;text-decoration:none}.note{font-size:12px;color:#93a5bc;line-height:1.6;margin-top:20px}.search{width:100%;background:#142238;border:1px solid #293d59;color:white;border-radius:12px;padding:12px 14px;font:inherit;outline:none}.emptymsg{color:#8ca1bb;padding:22px;text-align:center;border:1px dashed #2a3b54;border-radius:12px}.footer{margin-top:28px;border-top:1px solid #253650;padding-top:18px;color:#7388a3;font-size:11px}a{color:#8dbaff} @media(max-width:370px){.day{height:53px;padding:6px}.count{display:none}.meta{gap:7px}}
-</style></head><body><main><div class="head"><div><div class="eyebrow">DIVIDEND CALENDAR</div><h1>Календарь сделок</h1></div><span class="pill">2026</span></div><p>Ex-dividend даты и выплаты по акциям США и Европы</p><div class="controls"><button class="tab active" data-market="all">Все</button><button class="tab" data-market="us">США</button><button class="tab" data-market="eu">Европа</button></div><div class="month"><button class="arrow" id="prev" aria-label="Предыдущий месяц">‹</button><h2 id="monthLabel"></h2><button class="arrow" id="next" aria-label="Следующий месяц">›</button></div><div class="calendar" id="calendar"></div><div class="section"><div class="sectionhead"><h3 id="dayLabel"></h3><span class="muted" id="resultCount"></span></div><input class="search" id="search" placeholder="Поиск по тикеру или компании" aria-label="Поиск по акциям"><div id="list"></div></div><div class="note">Данные импортированы из рабочего Excel и могут быть предварительными. Проверяйте Ex-dividend даты по официальным источникам перед сделкой. Покупка до Ex-dividend не гарантирует прибыль: цена акции может снизиться на сумму дивиденда. Для получения дивиденда позиция обычно должна быть открыта до Ex-dividend даты.</div><div class="footer">Открытый календарь · Время торгов зависит от биржи · Информация не является индивидуальной инвестиционной рекомендацией</div></main><script>
-const STOCKS=[{"ticker": "CAT", "platform": "CAT", "name": "CAT", "market": "США", "ex": "2026-10-26", "exAdr": "—", "pay": "Не объявлена дата", "amount": "1.63", "currency": "USD", "source": "https://www.dividend101.com/ex-dividend-calendar"}, {"ticker": "ASML", "platform": "ASML", "name": "ASML", "market": "Другие рынки", "ex": "2026-10-27", "exAdr": "—", "pay": "Не объявлена дата", "amount": "2.1077", "currency": "USD", "source": "https://www.dividend101.com/ex-dividend-calendar"}, {"ticker": "LNT", "platform": "LNT", "name": "LNT", "market": "США", "ex": "2026-10-30", "exAdr": "—", "pay": "Не объявлена дата", "amount": "0.535", "currency": "USD", "source": "https://www.dividend101.com/ex-dividend-calendar"}, {"ticker": "MS", "platform": "MS", "name": "MS", "market": "США", "ex": "2026-10-30", "exAdr": "—", "pay": "Не объявлена дата", "amount": "1.15", "currency": "USD", "source": "https://www.dividend101.com/ex-dividend-calendar"}, {"ticker": "C", "platform": "C", "name": "C", "market": "США", "ex": "2026-11-02", "exAdr": "—", "pay": "Не объявлена дата", "amount": "0.67", "currency": "USD", "source": "https://www.dividend101.com/ex-dividend-calendar"}, {"ticker": "LVS", "platform": "LVS", "name": "LVS", "market": "США", "ex": "2026-11-02", "exAdr": "—", "pay": "2026-11-10", "amount": "0.3", "currency": "USD", "source": "https://www.tickergate.com/dividend-calendar"}, {"ticker": "NRG", "platform": "NRG", "name": "NRG", "market": "США", "ex": "2026-11-02", "exAdr": "—", "pay": "2026-11-16", "amount": "0.47", "currency": "USD", "source": "https://portfolio-terminal.com/dividend-calendar/november-2026"}, {"ticker": "CCL", "platform": "CCL", "name": "CCL", "market": "США", "ex": "2026-11-06", "exAdr": "—", "pay": "2026-11-27", "amount": "0.15", "currency": "USD", "source": "https://www.tickergate.com/dividend-calendar"}, {"ticker": "PFE", "platform": "PFE", "name": "PFE", "market": "США", "ex": "2026-11-06", "exAdr": "—", "pay": "2026-12-07", "amount": "0.43", "currency": "USD", "source": "https://www.pfizer.com/news/press-release/press-release-detail/pfizer-declares-fourth-quarter-2026-dividend"}, {"ticker": "WFC", "platform": "WFC", "name": "WFC", "market": "США", "ex": "2026-11-06", "exAdr": "—", "pay": "2026-12-01", "amount": "0.5", "currency": "USD", "source": "https://www.wellsfargo.com/about/investor-relations/"}, {"ticker": "AAPL", "platform": "APPLE", "name": "Apple", "market": "США", "ex": "2026-11-09", "exAdr": "—", "pay": "Не объявлена дата", "amount": "0.27", "currency": "USD", "source": "https://www.dividend101.com/ex-dividend-calendar | https://stockanalysis.com/stocks/aapl/dividend/"}, {"ticker": "IBM", "platform": "IBM", "name": "IBM", "market": "США", "ex": "2026-11-10", "exAdr": "—", "pay": "2026-12-10", "amount": "1.69", "currency": "USD", "source": "https://yatirimmasasi.com/en/dividend-calendar/us/"}, {"ticker": "HON", "platform": "HON", "name": "HON", "market": "США", "ex": "2026-11-13", "exAdr": "—", "pay": "Не объявлена дата", "amount": "0.7", "currency": "USD", "source": "https://www.dividend101.com/ex-dividend-calendar"}, {"ticker": "SBUX", "platform": "SBUX", "name": "SBUX", "market": "США", "ex": "2026-11-13", "exAdr": "—", "pay": "2026-11-27", "amount": "0.63", "currency": "USD", "source": "https://investor.starbucks.com/news/financial-releases/news-details/2026/Starbucks-Announces-Increase-in-Quarterly-Cash-Dividend/default.aspx"}, {"ticker": "SCHW", "platform": "SCHW", "name": "SCHW", "market": "США", "ex": "2026-11-13", "exAdr": "—", "pay": "2026-11-27", "amount": "0.32", "currency": "USD", "source": "https://stockanalysis.com/stocks/schw/dividend/"}, {"ticker": "CVX", "platform": "CHEVRON", "name": "Chevron", "market": "США", "ex": "2026-11-18", "exAdr": "—", "pay": "Не объявлена дата", "amount": "1.78", "currency": "USD", "source": "https://www.dividend101.com/ex-dividend-calendar"}, {"ticker": "MSFT", "platform": "MSFT", "name": "MSFT", "market": "США", "ex": "2026-11-19", "exAdr": "—", "pay": "2026-12-10", "amount": "0.98", "currency": "USD", "source": "https://www.microsoft.com/en-us/Investor/dividends-and-stock-history"}, {"ticker": "AMGN", "platform": "AMGN", "name": "AMGN", "market": "США", "ex": "2026-11-20", "exAdr": "—", "pay": "Не объявлена дата", "amount": "2.52", "currency": "USD", "source": "https://www.dividend101.com/ex-dividend-calendar"}, {"ticker": "JNJ", "platform": "JNJ", "name": "JNJ", "market": "США", "ex": "2026-11-24", "exAdr": "—", "pay": "2026-12-08", "amount": "1.34", "currency": "USD", "source": "https://investor.jnj.com/investor-news/news-details/2026/Johnson--Johnson-Announces-Quarterly-Dividend-for-Fourth-Quarter-2026/default.aspx"}, {"ticker": "TMUS", "platform": "TMUS", "name": "TMUS", "market": "США", "ex": "2026-11-25", "exAdr": "—", "pay": "2026-12-10", "amount": "1.17", "currency": "USD", "source": "https://dividendpedia.com/dividends-calendar/"}, {"ticker": "CSX", "platform": "CSX", "name": "CSX", "market": "США", "ex": "2026-11-30", "exAdr": "—", "pay": "2026-12-15", "amount": "0.14", "currency": "USD", "source": "https://dividendpedia.com/dividends-calendar/"}, {"ticker": "KO", "platform": "COCA", "name": "Coca-Cola", "market": "США", "ex": "2026-12-01", "exAdr": "—", "pay": "2026-12-15", "amount": "0.53", "currency": "USD", "source": "https://investors.coca-colacompany.com/stock-info/dividends"}, {"ticker": "LMT", "platform": "LMT", "name": "LMT", "market": "США", "ex": "2026-12-01", "exAdr": "—", "pay": "2026-12-31", "amount": "3.6", "currency": "USD", "source": "https://mapledividends.com/us/"}, {"ticker": "MCD", "platform": "MCDON", "name": "McDonald’s", "market": "США", "ex": "2026-12-01", "exAdr": "—", "pay": "2026-12-15", "amount": "1.93", "currency": "USD", "source": "https://mapledividends.com/us/"}, {"ticker": "WMT", "platform": "WMART", "name": "Walmart", "market": "США", "ex": "2026-12-11", "exAdr": "—", "pay": "2027-01-04", "amount": "0.2475", "currency": "USD", "source": "https://corporate.walmart.com/news/2026/02/19/walmart-raises-annual-dividend-to-0-99-per-share-marking-53rd-consecutive-year-of-dividend-increases"}, {"ticker": "A", "platform": "A", "name": "A", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/a/dividend/"}, {"ticker": "AA", "platform": "AA", "name": "AA", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/aa/dividend/"}, {"ticker": "AAL", "platform": "AAL", "name": "AAL", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/aal/dividend/"}, {"ticker": "ABBV", "platform": "ABBV", "name": "ABBV", "market": "США", "ex": "2027-01-15", "exAdr": "—", "pay": "2027-02-16", "amount": "1.82", "currency": "USD", "source": "https://mapledividends.com/us/"}, {"ticker": "ABDN", "platform": "ABDN", "name": "ABDN", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/ABDN/history/"}, {"ticker": "ABNB", "platform": "ABNB", "name": "ABNB", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/abnb/dividend/"}, {"ticker": "ABVN", "platform": "ABVN", "name": "ABVN", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/abvn/dividend/"}, {"ticker": "ADBE", "platform": "ADBE", "name": "ADBE", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/adbe/dividend/"}, {"ticker": "ADS.DE", "platform": "ADIDAS", "name": "Adidas", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/ADS.DE/history/"}, {"ticker": "AF.PA", "platform": "AirFrance", "name": "Air France-KLM", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/AF.PA/history/"}, {"ticker": "AFLT.ME", "platform": "AFLT", "name": "Aeroflot", "market": "Другие рынки", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/AFLT.ME/history/"}, {"ticker": "AI.PA", "platform": "L_Air", "name": "Air Liquide", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/AI.PA/history/"}, {"ticker": "AIG", "platform": "AIG", "name": "AIG", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/aig/dividend/"}, {"ticker": "AIR.PA", "platform": "AIRBUS", "name": "Airbus", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/AIR.PA/history/"}, {"ticker": "ALV.DE", "platform": "Allianz", "name": "Allianz", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/ALV.DE/history/"}, {"ticker": "AMD", "platform": "AMD", "name": "AMD", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/amd/dividend/"}, {"ticker": "AMZN", "platform": "AMAZON", "name": "Amazon", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/amzn/dividend/"}, {"ticker": "AVGO", "platform": "AVGO", "name": "AVGO", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/avgo/dividend/"}, {"ticker": "AXP", "platform": "AXP", "name": "AXP", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/axp/dividend/"}, {"ticker": "AZN", "platform": "AZN", "name": "AZN", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/azn/dividend/"}, {"ticker": "Assura", "platform": "Assura", "name": "Assura", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/Assura/history/"}, {"ticker": "BA", "platform": "BOEING", "name": "Boeing", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/ba/dividend/"}, {"ticker": "BA.L", "platform": "BAES", "name": "BAE Systems", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/BA.L/history/"}, {"ticker": "BABA", "platform": "ALIBABA", "name": "Alibaba ADR", "market": "Другие рынки", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/BABA/history/"}, {"ticker": "BAC", "platform": "BAC", "name": "BAC", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/bac/dividend/"}, {"ticker": "BARC.L", "platform": "BARCLAYS", "name": "Barclays", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/BARC.L/history/"}, {"ticker": "BAS.DE", "platform": "BASF", "name": "BASF", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/BAS.DE/history/"}, {"ticker": "BAYN.DE", "platform": "BAYER", "name": "Bayer", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/BAYN.DE/history/"}, {"ticker": "BB", "platform": "BB", "name": "BB", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/bb/dividend/"}, {"ticker": "BKNG", "platform": "BKNG", "name": "BKNG", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/bkng/dividend/"}, {"ticker": "BKR", "platform": "BKR", "name": "BKR", "market": "США", "ex": "2026-11-10", "exAdr": "—", "pay": "2026-11-20", "amount": "0.23", "currency": "USD", "source": "https://portfolio-terminal.com/dividend-calendar/november-2026"}, {"ticker": "BMW.DE", "platform": "BMW", "name": "BMW", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/BMW.DE/history/"}, {"ticker": "BNP.PA", "platform": "BNP", "name": "BNP Paribas", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/BNP.PA/history/"}, {"ticker": "BNTX", "platform": "BNTX", "name": "BNTX", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/bntx/dividend/"}, {"ticker": "BP.L", "platform": "BP", "name": "BP", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/BP.L/history/"}, {"ticker": "BRK.A", "platform": "BRK.A", "name": "BRK.A", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/BRK.A/history/"}, {"ticker": "BSX", "platform": "BSX", "name": "BSX", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/bsx/dividend/"}, {"ticker": "BT-A.L", "platform": "BT", "name": "BT Group", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/BT-A.L/history/"}, {"ticker": "BYND", "platform": "BYND", "name": "BYND", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/bynd/dividend/"}, {"ticker": "Bollore", "platform": "Bollore", "name": "Bollore", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/Bollore/history/"}, {"ticker": "Bouygues", "platform": "Bouygues", "name": "Bouygues", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/Bouygues/history/"}, {"ticker": "CHMF.ME", "platform": "CHMF", "name": "Severstal", "market": "Другие рынки", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/quote/moex/CHMF/dividend/"}, {"ticker": "CL", "platform": "CL", "name": "CL", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/cl/dividend/"}, {"ticker": "COMM", "platform": "COMM", "name": "COMM", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/comm/dividend/"}, {"ticker": "COMMERZBANK", "platform": "COMMERZBANK", "name": "COMMERZBANK", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/COMMERZBANK/history/"}, {"ticker": "CRM", "platform": "CRM", "name": "CRM", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/crm/dividend/"}, {"ticker": "CRWD", "platform": "CRWD", "name": "CRWD", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/crwd/dividend/"}, {"ticker": "CS.PA", "platform": "Axa", "name": "AXA", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/CS.PA/history/"}, {"ticker": "CSCO", "platform": "CSCO", "name": "CSCO", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/csco/dividend/"}, {"ticker": "CVS", "platform": "CVS", "name": "CVS", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/cvs/dividend/"}, {"ticker": "Centrica", "platform": "Centrica", "name": "Centrica", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/Centrica/history/"}, {"ticker": "DBK.DE", "platform": "DEUTSCHE_BANK", "name": "Deutsche Bank", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/DBK.DE/history/"}, {"ticker": "DELL", "platform": "DELL", "name": "DELL", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/dell/dividend/"}, {"ticker": "DHL.DE", "platform": "DEUTSCHE_POST", "name": "DHL Group", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/DHL.DE/history/"}, {"ticker": "DIS", "platform": "DISNEY", "name": "Walt Disney", "market": "США", "ex": "2026-06-30", "exAdr": "—", "pay": "2026-07-22", "amount": "0.75", "currency": "USD", "source": "https://thewaltdisneycompany.com/investor-relations/"}, {"ticker": "DPZ", "platform": "DPZ", "name": "DPZ", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/dpz/dividend/"}, {"ticker": "DTE", "platform": "DTE", "name": "DTE", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/dte/dividend/"}, {"ticker": "Danone", "platform": "Danone", "name": "Danone", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/Danone/history/"}, {"ticker": "EA", "platform": "EA", "name": "EA", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/ea/dividend/"}, {"ticker": "EASYJET", "platform": "EASYJET", "name": "EASYJET", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/EASYJET/history/"}, {"ticker": "EBAY", "platform": "EBAY", "name": "EBAY", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/ebay/dividend/"}, {"ticker": "EOAN.DE", "platform": "E.ON", "name": "E.ON", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/EOAN.DE/history/"}, {"ticker": "FDX", "platform": "FDX", "name": "FDX", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/fdx/dividend/"}, {"ticker": "FOX", "platform": "FOX", "name": "FOX", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/fox/dividend/"}, {"ticker": "FRAS.L", "platform": "SPORTS_DIRECT", "name": "Frasers Group", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/FRAS.L/history/"}, {"ticker": "GAZP.ME", "platform": "GAZP", "name": "Gazprom", "market": "Другие рынки", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/GAZP.ME/history/"}, {"ticker": "GE", "platform": "GE", "name": "GE", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/ge/dividend/"}, {"ticker": "GM", "platform": "GM", "name": "GM", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/gm/dividend/"}, {"ticker": "GME", "platform": "GME", "name": "GME", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/gme/dividend/"}, {"ticker": "GMKN.ME", "platform": "GMKN", "name": "Nornickel", "market": "Другие рынки", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "1.85", "currency": "RUB", "source": "https://www.nornickel.com/investors/"}, {"ticker": "GOOGL", "platform": "GOOGLE", "name": "Alphabet", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/googl/dividend/"}, {"ticker": "GPRO", "platform": "GPRO", "name": "GPRO", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/gpro/dividend/"}, {"ticker": "GS", "platform": "GS", "name": "GS", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/gs/dividend/"}, {"ticker": "GSK.L", "platform": "GSK", "name": "GSK", "market": "Европа", "ex": "2026-11-12", "exAdr": "—", "pay": "2027-01-07", "amount": "0.17", "currency": "GBP", "source": "https://dividenddata.co.uk/exdividenddate.py?m=ftse100"}, {"ticker": "Glencore", "platform": "Glencore", "name": "Glencore", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/Glencore/history/"}, {"ticker": "HOG", "platform": "HOG", "name": "HOG", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/hog/dividend/"}, {"ticker": "HOOD", "platform": "HOOD", "name": "HOOD", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/hood/dividend/"}, {"ticker": "HPE", "platform": "HPACK", "name": "Hewlett Packard Enterprise", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/hpe/dividend/"}, {"ticker": "HSBC", "platform": "HSBC", "name": "HSBC", "market": "Европа", "ex": "2026-11-05", "exAdr": "2026-11-06", "pay": "2026-12-17", "amount": "0.1", "currency": "USD", "source": "https://www.hsbc.com/investors/shareholder-and-dividend-information/dividend-information-and-timetable"}, {"ticker": "Hammerson", "platform": "Hammerson", "name": "Hammerson", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/Hammerson/history/"}, {"ticker": "IAG.L", "platform": "Airlines_Group", "name": "IAG", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/IAG.L/history/"}, {"ticker": "IBE", "platform": "IBE", "name": "IBE", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/IBE/history/"}, {"ticker": "IBKR", "platform": "IBKR", "name": "IBKR", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/ibkr/dividend/"}, {"ticker": "IFF", "platform": "IFF", "name": "IFF", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/iff/dividend/"}, {"ticker": "III.L", "platform": "3I", "name": "3i Group", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/III.L/history/"}, {"ticker": "INTC", "platform": "INTEL", "name": "Intel", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/intc/dividend/"}, {"ticker": "IWG", "platform": "IWG", "name": "IWG", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/IWG/history/"}, {"ticker": "JPM", "platform": "JPM", "name": "JPM", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/jpm/dividend/"}, {"ticker": "LEVI", "platform": "LEVI", "name": "LEVI", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/levi/dividend/"}, {"ticker": "LKOH.ME", "platform": "LKOH", "name": "Lukoil", "market": "Другие рынки", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/LKOH.ME/history/"}, {"ticker": "LLOY.L", "platform": "LLOYDS", "name": "Lloyds", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/LLOY.L/history/"}, {"ticker": "LSEG.L", "platform": "LONDON_STOCK", "name": "London Stock Exchange Group", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/LSEG.L/history/"}, {"ticker": "LUFTHANSA", "platform": "LUFTHANSA", "name": "LUFTHANSA", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/LUFTHANSA/history/"}, {"ticker": "LYFT", "platform": "LYFT", "name": "LYFT", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/lyft/dividend/"}, {"ticker": "LYG", "platform": "LYG", "name": "LYG", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/lyg/dividend/"}, {"ticker": "MA", "platform": "MCARD", "name": "Mastercard", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/ma/dividend/"}, {"ticker": "META", "platform": "FACEBOOK", "name": "Meta Platforms", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/meta/dividend/"}, {"ticker": "MGM", "platform": "MGM", "name": "MGM", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/mgm/dividend/"}, {"ticker": "MGNT.ME", "platform": "MGNT", "name": "Magnit", "market": "Другие рынки", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/MGNT.ME/history/"}, {"ticker": "MRNA", "platform": "MRNA", "name": "MRNA", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/mrna/dividend/"}, {"ticker": "MSI", "platform": "MSI", "name": "MSI", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/msi/dividend/"}, {"ticker": "MU", "platform": "MU", "name": "MU", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/mu/dividend/"}, {"ticker": "MVID.ME", "platform": "MVID", "name": "M.Video", "market": "Другие рынки", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/MVID.ME/history/"}, {"ticker": "NE", "platform": "NE", "name": "NE", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/ne/dividend/"}, {"ticker": "NFLX", "platform": "NETFLIX", "name": "Netflix", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/nflx/dividend/"}, {"ticker": "NKE", "platform": "NIKE", "name": "Nike", "market": "США", "ex": "2026-09-01", "exAdr": "—", "pay": "2026-10-01", "amount": "0.41", "currency": "USD", "source": "https://investors.nike.com/"}, {"ticker": "NKLA", "platform": "NKLA", "name": "NKLA", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/nkla/dividend/"}, {"ticker": "NOC", "platform": "NOC", "name": "NOC", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/noc/dividend/"}, {"ticker": "NVDA", "platform": "NVIDIA", "name": "NVIDIA", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://stockanalysis.com/stocks/nvda/dividend/"}, {"ticker": "NVTK.ME", "platform": "NVTK", "name": "Novatek", "market": "Другие рынки", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "35.50", "currency": "RUB", "source": "https://www.novatek.ru/en/investors/"}, {"ticker": "ORCL", "platform": "ORCL", "name": "ORCL", "market": "США", "ex": "2026-10-09", "exAdr": "—", "pay": "2026-10-23", "amount": "0.5", "currency": "USD", "source": "https://www.oracle.com/investor/"}, {"ticker": "OXY", "platform": "OXY", "name": "OXY", "market": "США", "ex": "2026-12-10", "exAdr": "—", "pay": "2027-01-15", "amount": "0.28", "currency": "USD", "source": "https://www.oxy.com/investors/"}, {"ticker": "Orange", "platform": "Orange", "name": "Orange", "market": "Европа", "ex": "2026-12-01", "exAdr": "—", "pay": "2026-12-03", "amount": "0.3", "currency": "EUR", "source": "https://www.orange.com/en/finance/individual-shareholders/your-questions-about-shareholding"}, {"ticker": "PEP", "platform": "PEP", "name": "PEP", "market": "США", "ex": "2026-09-04", "exAdr": "—", "pay": "2026-09-30", "amount": "1.48", "currency": "USD", "source": "https://www.pepsico.com/investors/dividend-information"}, {"ticker": "PG", "platform": "PG", "name": "PG", "market": "США", "ex": "2026-10-23", "exAdr": "—", "pay": "2026-11-16", "amount": "1.0885", "currency": "USD", "source": "https://www.sec.gov/Archives/edgar/data/80424/000008042426000214/pg-20261013.htm"}, {"ticker": "PKN", "platform": "PKN", "name": "PKN", "market": "Европа", "ex": "2026-06-17", "exAdr": "—", "pay": "2026-06-25", "amount": "8", "currency": "PLN", "source": "https://www.orlen.pl/en/investor-relations/investors/dividend"}, {"ticker": "PLTR", "platform": "PLTR", "name": "PLTR", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://investors.palantir.com/files/2025%20FY%20PLTR%2010-K.pdf"}, {"ticker": "PLZL.ME", "platform": "PLZL", "name": "Polyus", "market": "Другие рынки", "ex": "2026-07-13", "exAdr": "—", "pay": "2026-08-17", "amount": "29.05", "currency": "RUB", "source": "https://polyus.com/ru/investors/shares/dividends/"}, {"ticker": "PM", "platform": "PM", "name": "PM", "market": "США", "ex": "2026-10-02", "exAdr": "—", "pay": "2026-10-26", "amount": "1.6", "currency": "USD", "source": "https://www.pmi.com/investor-relations/press-releases-and-events/press-releases-overview/press-release-details?newsId=30411"}, {"ticker": "PUMA", "platform": "PUMA", "name": "PUMA", "market": "Европа", "ex": "2025-05-22", "exAdr": "—", "pay": "2025-05-26", "amount": "0.61", "currency": "EUR", "source": "https://www.fidelity.co.uk/factsheet-data/factsheet/DE0006969603-puma-se/dividends"}, {"ticker": "PYPL", "platform": "PYPL", "name": "PYPL", "market": "США", "ex": "2026-12-04", "exAdr": "—", "pay": "2026-12-24", "amount": "0.14", "currency": "USD", "source": "https://www.sec.gov/Archives/edgar/data/1633917/000163391726000086/pypl3q-26earningsrelease.htm"}, {"ticker": "Quilter", "platform": "Quilter", "name": "Quilter", "market": "Европа", "ex": "2026-08-27", "exAdr": "—", "pay": "2026-09-21", "amount": "2.1", "currency": "GBp", "source": "https://plc.quilter.com/investor-relations/shareholder-centre/dividends/"}, {"ticker": "RACE", "platform": "FERRARI", "name": "Ferrari", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://finance.yahoo.com/quote/RACE/history/"}, {"ticker": "REP", "platform": "REP", "name": "REP", "market": "Европа", "ex": "2026-07-06", "exAdr": "—", "pay": "2026-07-08", "amount": "0.551", "currency": "EUR", "source": "https://www.repsol.com/en/shareholders-and-investors/repsol-on-the-stock-exchange/shareholder-remuneration/index.cshtml"}, {"ticker": "RHM", "platform": "RHM", "name": "RHM", "market": "Европа", "ex": "2026-05-13", "exAdr": "—", "pay": "2026-05-15", "amount": "11.5", "currency": "EUR", "source": "https://www.rheinmetall.com/en/investor-relations/share/dividend"}, {"ticker": "RIO.L", "platform": "Rio", "name": "Rio Tinto", "market": "Европа", "ex": "2026-08-13", "exAdr": "—", "pay": "2026-09-24", "amount": "156.661841", "currency": "GBp", "source": "https://www.riotinto.com/en/invest/shareholder-information/dividends/dividend-history-and-calculator"}, {"ticker": "RNO.PA", "platform": "RENAULT", "name": "Renault", "market": "Европа", "ex": "2026-05-08", "exAdr": "—", "pay": "2026-05-12", "amount": "2.2", "currency": "EUR", "source": "https://media.renaultgroup.com/renault-group-demonstrates-its-resilience-the-robustness-of-its-strategy-and-moves-forward-with-confidence/?lang=eng"}, {"ticker": "ROSN.ME", "platform": "ROSN", "name": "Rosneft", "market": "Другие рынки", "ex": "2026-07-09", "exAdr": "—", "pay": "2026-08-13", "amount": "2.27", "currency": "RUB", "source": "https://www.rosneft.ru/Investors/dividends/"}, {"ticker": "RR.L", "platform": "ROLLS-ROYCE", "name": "Rolls-Royce", "market": "Европа", "ex": "2026-08-06", "exAdr": "—", "pay": "2026-09-18", "amount": "0.06", "currency": "GBP", "source": "https://www.rolls-royce.com/investors/shareholder-information/payments-to-shareholders.aspx"}, {"ticker": "RYAAY", "platform": "RYAAY", "name": "RYAAY", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "0.4303", "currency": "USD", "source": "https://investor.ryanair.com/investors-shareholders/dividend/"}, {"ticker": "SBER.ME", "platform": "SBER", "name": "Sberbank", "market": "Другие рынки", "ex": "2026-07-20", "exAdr": "—", "pay": "2026-08-24", "amount": "37.64", "currency": "RUB", "source": "https://www.interfax.ru/quote/Sber/Dividends"}, {"ticker": "SBRY.L", "platform": "SAINSBURY", "name": "Sainsbury", "market": "Европа", "ex": "2026-11-12", "exAdr": "—", "pay": "2026-12-18", "amount": "4.1", "currency": "GBp", "source": "https://www.investegate.co.uk/index.php/announcement/rns/tesco--tsco/interim-results-2026-27/9812184"}, {"ticker": "SHEL.L", "platform": "Shell", "name": "Shell", "market": "Европа", "ex": "2026-11-12", "exAdr": "2026-11-13", "pay": "2026-12-21", "amount": "0.3906", "currency": "USD", "source": "https://www.shell.com/investors/dividend-information.html"}, {"ticker": "SIE.DE", "platform": "SIEMENS", "name": "Siemens", "market": "Европа", "ex": "2026-02-13", "exAdr": "—", "pay": "2026-02-17", "amount": "5.35", "currency": "EUR", "source": "https://www.fidelity.co.uk/"}, {"ticker": "SNAP", "platform": "SNAP", "name": "SNAP", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://www.sec.gov/Archives/edgar/data/1564408/000156440826000013/snap-20251231.htm"}, {"ticker": "SNGS.ME", "platform": "SNGS", "name": "Surgutneftegas", "market": "Другие рынки", "ex": "2026-07-16", "exAdr": "—", "pay": "2026-08-20", "amount": "0.85", "currency": "RUB", "source": "https://www.surgutneftegas.ru/en/investors/dividends/dividend-payment-history/"}, {"ticker": "SONY", "platform": "SONY", "name": "Sony ADR", "market": "Другие рынки", "ex": "2026-03-30", "exAdr": "—", "pay": "2026-06-08", "amount": "0.0781", "currency": "USD", "source": "https://www.sony.com/en/SonyInfo/IR/"}, {"ticker": "T", "platform": "T", "name": "T", "market": "США", "ex": "2026-10-09", "exAdr": "—", "pay": "2026-11-02", "amount": "0.2775", "currency": "USD", "source": "https://stockanalysis.com/stocks/t/dividend/"}, {"ticker": "TATN.ME", "platform": "TATN", "name": "Tatneft", "market": "Другие рынки", "ex": "2026-10-13", "exAdr": "—", "pay": "2026-11-18", "amount": "32.88", "currency": "RUB", "source": "https://www.finam.ru/quote/spbe/tatn/dates/"}, {"ticker": "TM", "platform": "TOYOTA", "name": "Toyota ADR", "market": "Другие рынки", "ex": "2026-09-30", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "USD", "source": "https://global.toyota/en/ir/stock/dividend/"}, {"ticker": "TSCO.L", "platform": "TESCO", "name": "Tesco", "market": "Европа", "ex": "2026-10-15", "exAdr": "—", "pay": "2026-11-20", "amount": "5.05", "currency": "GBp", "source": "https://www.investegate.co.uk/index.php/announcement/rns/tesco--tsco/interim-results-2026-27/9812184"}, {"ticker": "TSLA", "platform": "TESLA", "name": "Tesla", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://ir.tesla.com/contact-us"}, {"ticker": "TTE.PA", "platform": "Total", "name": "TotalEnergies", "market": "Европа", "ex": "2026-12-31", "exAdr": "—", "pay": "2027-01-05", "amount": "0.9", "currency": "EUR", "source": "https://totalenergies.com/investors/shares-and-dividends/dividends"}, {"ticker": "TUI", "platform": "TUI", "name": "TUI", "market": "Европа", "ex": "2026-02-11", "exAdr": "—", "pay": "2026-02-13", "amount": "0.1", "currency": "EUR", "source": "https://www.tuigroup.com/en/investors/service-contact/faq"}, {"ticker": "Tullow", "platform": "Tullow", "name": "Tullow", "market": "Европа", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://www.tullowoil.com/media/press-releases/2026-half-year-results/"}, {"ticker": "UA", "platform": "UA", "name": "UA", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://about.underarmour.com/en/investors/resources.html"}, {"ticker": "UBER", "platform": "UBER", "name": "UBER", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://investor.uber.com/faq-resources/default.aspx"}, {"ticker": "ULVR.L", "platform": "Unilever", "name": "Unilever", "market": "Европа", "ex": "2026-11-12", "exAdr": "2026-11-13", "pay": "2026-12-18", "amount": "39.07", "currency": "GBp", "source": "https://www.unilever.com/investors/investor-centre/dividends/"}, {"ticker": "UNP", "platform": "UNP", "name": "UNP", "market": "США", "ex": "2026-08-31", "exAdr": "—", "pay": "2026-09-30", "amount": "1.42", "currency": "USD", "source": "https://investor.unionpacific.com/stock/dividend-history"}, {"ticker": "V", "platform": "VISA", "name": "Visa", "market": "США", "ex": "2026-11-10", "exAdr": "—", "pay": "2026-12-01", "amount": "0.78", "currency": "USD", "source": "https://investor.visa.com/stock-information/dividends/default.aspx"}, {"ticker": "VINP", "platform": "VINP", "name": "VINP", "market": "США", "ex": "2026-08-25", "exAdr": "—", "pay": "2026-09-09", "amount": "0.17", "currency": "USD", "source": "https://ir.vincicompass.com/"}, {"ticker": "VOD", "platform": "VOD", "name": "VOD", "market": "Европа", "ex": "2026-06-05", "exAdr": "—", "pay": "2026-07-30", "amount": "0.251983", "currency": "USD", "source": "https://www.vodafone.com/investors/shareholder-centre/dividends"}, {"ticker": "VOW3.DE", "platform": "Volkswagen", "name": "Volkswagen", "market": "Европа", "ex": "2026-06-19", "exAdr": "—", "pay": "2026-06-23", "amount": "5.26", "currency": "EUR", "source": "https://www.fidelity.co.uk/"}, {"ticker": "VTBR.ME", "platform": "VTBR", "name": "VTB", "market": "Другие рынки", "ex": "2026-07-20", "exAdr": "—", "pay": "2026-08-24", "amount": "9.71", "currency": "RUB", "source": "https://www.vtb.ru/akcionery-i-investory/akcioneram/dividendy/"}, {"ticker": "WU", "platform": "WU", "name": "WU", "market": "США", "ex": "2026-09-16", "exAdr": "—", "pay": "2026-09-30", "amount": "0.235", "currency": "USD", "source": "https://ir.westernunion.com/stock-information/dividend-history"}, {"ticker": "ZM", "platform": "ZM", "name": "ZM", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://www.sec.gov/"}, {"ticker": "ZS", "platform": "ZS", "name": "ZS", "market": "США", "ex": "Не объявлена дата", "exAdr": "—", "pay": "Не объявлена дата", "amount": "", "currency": "", "source": "https://www.sec.gov/"}];
-const MONTHS=['январь','февраль','март','апрель','май','июнь','июль','август','сентябрь','октябрь','ноябрь','декабрь'];
-let year=2026,month=10,selected=6,market='all',search='';
-const $=id=>document.getElementById(id);
-function valid(s){return /^2026-\d{2}-\d{2}$/.test(s||'')}
-function marketOf(s){return (s.market||'').includes('США')?'us':'eu'}
-function matches(s){return (market==='all'||marketOf(s)===market)&&(!search||[s.ticker,s.platform,s.name].join(' ').toLowerCase().includes(search))}
-function onDate(s,d){return s.ex===d || (valid(s.exAdr)&&s.exAdr===d)}
-function dateStr(d){return `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`}
-function filtered(d){return STOCKS.filter(s=>matches(s)&&onDate(s,dateStr(d)))}
-function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function clean(s){return s&&s!=='—'&&s!=='Не объявлена дата'?esc(s):'Не указано'}
-function render(){ $('monthLabel').textContent=MONTHS[month]+' '+year;document.querySelectorAll('[data-market]').forEach(b=>b.classList.toggle('active',b.dataset.market===market));let first=(new Date(year,month,1).getDay()+6)%7,last=new Date(year,month+1,0).getDate();let html=['Пн','Вт','Ср','Чт','Пт','Сб','Вс'].map(d=>`<div class="weekday">${d}</div>`).join('');for(let i=0;i<first;i++)html+='<div class="day empty"></div>';for(let d=1;d<=last;d++){let n=filtered(d).length;html+=`<button class="day ${n?'has':''} ${d===selected?'selected':''}" data-day="${d}" aria-label="${d} ${MONTHS[month]}, ${n} акций"><span class="num">${d}</span>${n?`<span class="dot"></span><span class="count">${n}</span>`:''}</button>`} $('calendar').innerHTML=html;document.querySelectorAll('[data-day]').forEach(b=>b.onclick=()=>{selected=+b.dataset.day;render()});$('dayLabel').textContent=`${selected} ${MONTHS[month]}`;let arr=filtered(selected);$('resultCount').textContent=arr.length+' акций';$('list').innerHTML=arr.length?arr.map(s=>`<article class="item"><div class="itemtop"><div class="ticker">${esc(s.ticker)}</div><div class="market">${marketOf(s)==='us'?'США':'Европа / другие'}</div></div><div class="name">${esc(s.name)}</div><div class="meta"><div><small>Ex-dividend</small><strong>${clean(s.ex)}</strong></div><div><small>Выплата</small><strong>${clean(s.pay)}</strong></div><div><small>Дивиденд на акцию</small><strong>${clean(s.amount)} ${esc(s.currency)}</strong></div><div><small>Тикер платформы</small><strong>${clean(s.platform)}</strong></div></div>${/^https?:\/\//.test(s.source||'')?`<a class="source" target="_blank" rel="noopener noreferrer" href="${esc(s.source)}">Источник данных ↗</a>`:''}</article>`).join(''):'<div class="emptymsg">На выбранную дату акций нет</div>'}
-$('prev').onclick=()=>{month--;if(month<0){month=11;year--}selected=1;render()};$('next').onclick=()=>{month++;if(month>11){month=0;year++}selected=1;render()};document.querySelectorAll('[data-market]').forEach(b=>b.onclick=()=>{market=b.dataset.market;render()});$('search').oninput=e=>{search=e.target.value.toLowerCase().trim();render()};render();
-</script></body></html>
+
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b1324">
+<title>Ex-Date Trading | Дивидендный календарь</title>
+
+<link rel="icon" href="./favicon.ico?v=2" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png?v=2">
+<link rel="apple-touch-icon" sizes="180x180" href="./favicon-180.png">
+
+<style>
+:root {
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #ecf3ff;
+  background: #0b1324;
+}
+* { box-sizing: border-box; }
+body { margin: 0; }
+main { max-width: 750px; margin: auto; padding: 24px 16px 50px; }
+.eyebrow { font-size: 11px; letter-spacing: 2px; color: #78a8e8; font-weight: 700; }
+.head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+h1 { font-size: 26px; margin: 8px 0 5px; letter-spacing: -.7px; }
+p { color: #98a8bf; line-height: 1.5; }
+.pill { border: 1px solid #2a3d59; background: #17253b; border-radius: 99px; padding: 8px 12px; color: #c3d5ed; font-size: 12px; }
+.controls { display: flex; gap: 8px; margin: 23px 0 18px; flex-wrap: wrap; }
+button { cursor: pointer; font: inherit; }
+button.tab { background: #15243a; border: 1px solid #263953; color: #aabbd2; padding: 10px 15px; border-radius: 12px; }
+button.tab.active { background: #2563eb; color: #fff; border-color: #2563eb; }
+.month { display: flex; align-items: center; justify-content: space-between; margin: 14px 0; }
+.month h2 { font-size: 20px; text-transform: capitalize; margin: 0; }
+.arrow { background: #17263e; border: 1px solid #293e5a; color: white; width: 38px; height: 38px; border-radius: 10px; font-size: 23px; }
+.calendar { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 5px; }
+.weekday { text-align: center; color: #8397b1; font-size: 12px; padding: 10px 0; }
+.day { height: 64px; border: 1px solid #1e2d44; background: #121e31; border-radius: 11px; color: #dce8fa; text-align: left; padding: 9px 7px; position: relative; }
+.day.empty { border-color: transparent; background: transparent; }
+.day.has { border-color: #335477; background: #1a304b; }
+.day.selected { border-color: #62a4ff; background: #1a4b8c; }
+.num { font-size: 13px; font-weight: 600; }
+.dot { position: absolute; bottom: 9px; left: 9px; width: 6px; height: 6px; border-radius: 50%; background: #61d4ad; }
+.count { position: absolute; bottom: 7px; right: 7px; font-size: 10px; color: #9fc4f5; }
+.section { margin-top: 24px; }
+.sectionhead { display: flex; justify-content: space-between; align-items: center; }
+.sectionhead h3 { font-size: 17px; }
+.muted { color: #8fa3be; font-size: 13px; }
+.item { background: #142238; border: 1px solid #273a54; border-radius: 15px; padding: 16px; margin: 10px 0; }
+.itemtop { display: flex; justify-content: space-between; align-items: start; gap: 12px; }
+.ticker { font-size: 19px; font-weight: 800; }
+.market { font-size: 11px; color: #a3b7d3; background: #223751; padding: 5px 9px; border-radius: 8px; }
+.name { color: #99abc4; font-size: 13px; margin: 4px 0 12px; }
+.meta { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 13px; }
+.meta small { display: block; color: #8196b2; margin-bottom: 5px; }
+.meta strong { font-size: 14px; font-weight: 600; }
+.source { display: inline-block; margin-top: 14px; color: #80b6ff; font-size: 12px; text-decoration: none; }
+.note { font-size: 12px; color: #93a5bc; line-height: 1.6; margin-top: 20px; }
+.search { width: 100%; background: #142238; border: 1px solid #293d59; color: white; border-radius: 12px; padding: 12px 14px; font: inherit; outline: none; }
+.emptymsg { color: #8ca1bb; padding: 22px; text-align: center; border: 1px dashed #2a3b54; border-radius: 12px; }
+.footer { margin-top: 28px; border-top: 1px solid #253650; padding-top: 18px; color: #7388a3; font-size: 11px; }
+a { color: #8dbaff; }
+@media(max-width:370px) {
+  .day { height: 53px; padding: 6px; }
+  .count { display: none; }
+  .meta { gap: 7px; }
+}
+</style>
+</head>
+<body>
+<main>
+  <div class="head">
+    <div>
+      <div class="eyebrow">EX-DATE TRADING</div>
+      <h1>Календарь сделок</h1>
+    </div>
+    <span class="pill" id="yearPill">2026</span>
+  </div>
+
+  <p>Ex-dividend даты и выплаты по акциям США и Европы</p>
+
+  <div class="controls">
+    <button class="tab active" data-market="all">Все</button>
+    <button class="tab" data-market="us">США</button>
+    <button class="tab" data-market="eu">Европа</button>
+  </div>
+
+  <div class="month">
+    <button class="arrow" id="prev" aria-label="Предыдущий месяц">‹</button>
+    <h2 id="monthLabel"></h2>
+    <button class="arrow" id="next" aria-label="Следующий месяц">›</button>
+  </div>
+
+  <div class="calendar" id="calendar"></div>
+
+  <div class="section">
+    <div class="sectionhead">
+      <h3 id="dayLabel"></h3>
+      <span class="muted" id="resultCount"></span>
+    </div>
+    <input class="search" id="search"
+      placeholder="Поиск по тикеру или компании"
+      aria-label="Поиск по акциям">
+    <div id="list"></div>
+  </div>
+
+  <div class="note">
+    Данные могут быть предварительными. Проверяйте Ex-dividend даты
+    по официальным источникам перед сделкой. Покупка до Ex-dividend
+    не гарантирует прибыль: цена акции может снизиться на сумму дивиденда.
+    Для получения дивиденда позиция обычно должна быть открыта
+    до Ex-dividend даты.
+  </div>
+
+  <div class="footer">
+    Открытый календарь · Время торгов зависит от биржи ·
+    Информация не является индивидуальной инвестиционной рекомендацией
+  </div>
+</main>
+
+<script>
+let STOCKS = [];
+
+const MONTHS = [
+  'январь', 'февраль', 'март', 'апрель',
+  'май', 'июнь', 'июль', 'август',
+  'сентябрь', 'октябрь', 'ноябрь', 'декабрь'
+];
+
+const today = new Date();
+let year = today.getFullYear();
+let month = today.getMonth();
+let selected = today.getDate();
+let market = 'all';
+let search = '';
+
+const $ = id => document.getElementById(id);
+
+function valid(s) {
+  return /^\d{4}-\d{2}-\d{2}$/.test(s || '');
+}
+
+function marketOf(s) {
+  return (s.market || '').includes('США') ? 'us' : 'eu';
+}
+
+function matches(s) {
+  return (
+    (market === 'all' || marketOf(s) === market) &&
+    (!search || [s.ticker, s.platform, s.name]
+      .join(' ').toLowerCase().includes(search))
+  );
+}
+
+function onDate(s, d) {
+  return s.ex === d || (valid(s.exAdr) && s.exAdr === d);
+}
+
+function dateStr(d) {
+  return `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+}
+
+function filtered(d) {
+  return STOCKS.filter(s => matches(s) && onDate(s, dateStr(d)));
+}
+
+function esc(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  }[c]));
+}
+
+function clean(s) {
+  return s && s !== '—' && s !== 'Не объявлена дата'
+    ? esc(s)
+    : 'Не указано';
+}
+
+function render() {
+  $('yearPill').textContent = year;
+  $('monthLabel').textContent = MONTHS[month] + ' ' + year;
+
+  document.querySelectorAll('[data-market]').forEach(b => {
+    b.classList.toggle('active', b.dataset.market === market);
+  });
+
+  const first = (new Date(year, month, 1).getDay() + 6) % 7;
+  const last = new Date(year, month + 1, 0).getDate();
+
+  let html = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
+    .map(d => `<div class="weekday">${d}</div>`).join('');
+
+  for (let i = 0; i < first; i++) {
+    html += '<div class="day empty"></div>';
+  }
+
+  for (let d = 1; d <= last; d++) {
+    const n = filtered(d).length;
+    html += `
+      <button class="day ${n ? 'has' : ''} ${d === selected ? 'selected' : ''}"
+        data-day="${d}"
+        aria-label="${d} ${MONTHS[month]}, ${n} событий">
+        <span class="num">${d}</span>
+        ${n ? `<span class="dot"></span><span class="count">${n}</span>` : ''}
+      </button>`;
+  }
+
+  $('calendar').innerHTML = html;
+
+  document.querySelectorAll('[data-day]').forEach(b => {
+    b.onclick = () => {
+      selected = +b.dataset.day;
+      render();
+    };
+  });
+
+  $('dayLabel').textContent = `${selected} ${MONTHS[month]}`;
+
+  const arr = filtered(selected);
+  $('resultCount').textContent = arr.length + ' событий';
+
+  $('list').innerHTML = arr.length
+    ? arr.map(s => `
+      <article class="item">
+        <div class="itemtop">
+          <div class="ticker">${esc(s.ticker)}</div>
+          <div class="market">
+            ${marketOf(s) === 'us' ? 'США' : 'Европа / другие'}
+          </div>
+        </div>
+
+        <div class="name">${esc(s.name)}</div>
+
+        <div class="meta">
+          <div>
+            <small>Ex-dividend</small>
+            <strong>${clean(s.ex)}</strong>
+          </div>
+          <div>
+            <small>Выплата</small>
+            <strong>${clean(s.pay)}</strong>
+          </div>
+          <div>
+            <small>Дивиденд на акцию</small>
+            <strong>${clean(s.amount)} ${esc(s.currency)}</strong>
+          </div>
+          <div>
+            <small>Тикер платформы</small>
+            <strong>${clean(s.platform)}</strong>
+          </div>
+        </div>
+
+        ${/^https?:\/\//.test(s.source || '')
+          ? `<a class="source" target="_blank"
+               rel="noopener noreferrer"
+               href="${esc(s.source)}">Источник данных ↗</a>`
+          : ''}
+      </article>
+    `).join('')
+    : '<div class="emptymsg">На выбранную дату событий нет</div>';
+}
+
+$('prev').onclick = () => {
+  month--;
+  if (month < 0) {
+    month = 11;
+    year--;
+  }
+  selected = 1;
+  render();
+};
+
+$('next').onclick = () => {
+  month++;
+  if (month > 11) {
+    month = 0;
+    year++;
+  }
+  selected = 1;
+  render();
+};
+
+document.querySelectorAll('[data-market]').forEach(b => {
+  b.onclick = () => {
+    market = b.dataset.market;
+    render();
+  };
+});
+
+$('search').oninput = e => {
+  search = e.target.value.toLowerCase().trim();
+  render();
+};
+
+async function loadStocks() {
+  try {
+    const [baseResponse, extraResponse] = await Promise.all([
+      fetch('./data.json?ts=' + Date.now()),
+      fetch('./dividend-events.json?ts=' + Date.now())
+    ]);
+
+    if (!baseResponse.ok) {
+      throw new Error('Не удалось загрузить data.json');
+    }
+
+    const base = await baseResponse.json();
+    const extra = extraResponse.ok
+      ? await extraResponse.json()
+      : [];
+
+    if (!Array.isArray(base) || !Array.isArray(extra)) {
+      throw new Error('Неверный формат данных календаря');
+    }
+
+    const byTicker = new Map(
+      base.map(x => [String(x.ticker || '').toUpperCase(), x])
+    );
+
+    const seen = new Set();
+    STOCKS = [];
+
+    for (const e of [...extra, ...base]) {
+      const t = String(e.ticker || '').toUpperCase();
+      const key = t + '|' + e.ex;
+
+      if (!t || seen.has(key)) continue;
+      seen.add(key);
+
+      const b = byTicker.get(t) || {};
+
+      STOCKS.push({
+        ...b,
+        ...e,
+        name: b.name || e.name || t,
+        platform: b.platform || e.platform || t,
+        market: b.market || e.market || '',
+        source: e.sourceUrl || e.source || b.source || ''
+      });
+    }
+
+    render();
+
+  } catch (err) {
+    $('list').innerHTML =
+      '<div class="emptymsg">Ошибка загрузки: ' +
+      esc(err.message) + '</div>';
+  }
+}
+
+render();
+loadStocks();
+</script>
+</body>
+</html>
