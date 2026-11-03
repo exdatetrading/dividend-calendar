@@ -29,9 +29,9 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data.json sync-report.json eodhd-sync-report.json eodhd-sync-state.json
+          git add data.json dividend-events.json sync-report.json eodhd-sync-report.json eodhd-sync-state.json
           if ! git diff --cached --quiet; then
-            git commit -m "Sync dividend data from FMP and EODHD"
+            git commit -m "Sync multiple dividend events from FMP and EODHD"
             git push
           else
             echo "No changes to commit"
