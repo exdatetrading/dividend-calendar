@@ -1,14 +1,9 @@
 {
-  "checked_at_utc_date": "2026-11-03",
-  "window": [
-    "2026-10-04",
-    "2027-05-02"
-  ],
-  "instruments": 182,
+  "date": "2026-11-03",
   "api_events": 34,
-  "changed": [],
-  "manual_review": [],
-  "no_matching_api_event": 161,
-  "unchanged": 21,
-  "note": "FMP coverage varies. No API match does not mean no dividend. One event per ticker in data.json."
+  "matched_events": 17,
+  "added": 17,
+  "enriched": 0,
+  "total_stored": 17,
+  "note": "Additional events stored separately. Legacy data.json unchanged. USD assumed for US listings; verify issuer and dividend units."
 }

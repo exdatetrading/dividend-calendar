@@ -1,179 +1,109 @@
 {
   "date": "2026-11-03",
-  "window": {
-    "from": "2026-09-19",
-    "to": "2027-11-08"
-  },
-  "mapped_instruments": 34,
-  "request_limit": 10,
   "checked": [
     {
-      "ticker": "BMW.DE",
-      "symbol": "BMW.XETRA",
+      "ticker": "III.L",
+      "symbol": "III.LSE",
       "events": 0,
-      "future_events": 0,
-      "provider_dates": [],
-      "existing_ex": "Не объявлена дата",
-      "decision": "no_future_events"
+      "future": 0,
+      "dates": []
     },
     {
-      "ticker": "BNP.PA",
-      "symbol": "BNP.PA",
-      "events": 1,
-      "future_events": 0,
-      "provider_dates": [],
-      "existing_ex": "Не объявлена дата",
-      "decision": "no_future_events"
+      "ticker": "LLOY.L",
+      "symbol": "LLOY.LSE",
+      "events": 0,
+      "future": 0,
+      "dates": []
     },
     {
-      "ticker": "BP.L",
-      "symbol": "BP.LSE",
+      "ticker": "LSEG.L",
+      "symbol": "LSEG.LSE",
+      "events": 0,
+      "future": 0,
+      "dates": []
+    },
+    {
+      "ticker": "FRAS.L",
+      "symbol": "FRAS.LSE",
+      "events": 0,
+      "future": 0,
+      "dates": []
+    },
+    {
+      "ticker": "SHEL.L",
+      "symbol": "SHEL.LSE",
+      "events": 0,
+      "future": 0,
+      "dates": []
+    },
+    {
+      "ticker": "RIO.L",
+      "symbol": "RIO.LSE",
+      "events": 0,
+      "future": 0,
+      "dates": []
+    },
+    {
+      "ticker": "SIE.DE",
+      "symbol": "SIE.XETRA",
+      "events": 0,
+      "future": 0,
+      "dates": []
+    },
+    {
+      "ticker": "VOW3.DE",
+      "symbol": "VOW3.XETRA",
+      "events": 0,
+      "future": 0,
+      "dates": []
+    },
+    {
+      "ticker": "RNO.PA",
+      "symbol": "RNO.PA",
+      "events": 0,
+      "future": 0,
+      "dates": []
+    },
+    {
+      "ticker": "ULVR.L",
+      "symbol": "ULVR.LSE",
       "events": 1,
-      "future_events": 1,
-      "provider_dates": [
+      "future": 1,
+      "dates": [
         "2026-11-12"
-      ],
-      "existing_ex": "Не объявлена дата",
-      "decision": "updated"
-    },
-    {
-      "ticker": "BT-A.L",
-      "symbol": "BT-A.LSE",
-      "events": 0,
-      "future_events": 0,
-      "provider_dates": [],
-      "existing_ex": "Не объявлена дата",
-      "decision": "no_future_events"
-    },
-    {
-      "ticker": "CS.PA",
-      "symbol": "CS.PA",
-      "events": 0,
-      "future_events": 0,
-      "provider_dates": [],
-      "existing_ex": "Не объявлена дата",
-      "decision": "no_future_events"
-    },
-    {
-      "ticker": "DBK.DE",
-      "symbol": "DBK.XETRA",
-      "events": 0,
-      "future_events": 0,
-      "provider_dates": [],
-      "existing_ex": "Не объявлена дата",
-      "decision": "no_future_events"
-    },
-    {
-      "ticker": "DHL.DE",
-      "symbol": "DHL.XETRA",
-      "events": 0,
-      "future_events": 0,
-      "provider_dates": [],
-      "existing_ex": "Не объявлена дата",
-      "decision": "no_future_events"
-    },
-    {
-      "ticker": "EOAN.DE",
-      "symbol": "EOAN.XETRA",
-      "events": 0,
-      "future_events": 0,
-      "provider_dates": [],
-      "existing_ex": "Не объявлена дата",
-      "decision": "no_future_events"
-    },
-    {
-      "ticker": "GSK.L",
-      "symbol": "GSK.LSE",
-      "events": 1,
-      "future_events": 1,
-      "provider_dates": [
-        "2026-11-12"
-      ],
-      "existing_ex": "2026-11-12",
-      "decision": "already_current"
-    },
-    {
-      "ticker": "IAG.L",
-      "symbol": "IAG.LSE",
-      "events": 0,
-      "future_events": 0,
-      "provider_dates": [],
-      "existing_ex": "Не объявлена дата",
-      "decision": "no_future_events"
-    }
-  ],
-  "changed": [
-    {
-      "ticker": "BP.L",
-      "symbol": "BP.LSE",
-      "before": {
-        "ex": "Не объявлена дата",
-        "pay": "Не объявлена дата",
-        "amount": "",
-        "currency": ""
-      },
-      "after": {
-        "ex": "2026-11-12",
-        "pay": "2026-12-18",
-        "amount": "",
-        "currency": ""
-      }
-    }
-  ],
-  "review": [
-    {
-      "ticker": "BP.L",
-      "reason": "Provider amount/currency differ; verify units",
-      "provider_amount": 0.0866,
-      "provider_currency": "GBP",
-      "stored_amount": "",
-      "stored_currency": "",
-      "ex_date": "2026-11-12"
+      ]
     }
   ],
   "errors": [],
-  "unmapped_non_us": [
-    "ASML",
-    "AFLT.ME",
-    "Assura",
-    "BABA",
-    "Bollore",
-    "Bouygues",
-    "CHMF.ME",
-    "COMMERZBANK",
-    "Centrica",
-    "Danone",
-    "EASYJET",
-    "GAZP.ME",
-    "GMKN.ME",
-    "Glencore",
-    "HSBC",
-    "Hammerson",
-    "IBE",
-    "IWG",
-    "LKOH.ME",
-    "LUFTHANSA",
-    "MGNT.ME",
-    "MVID.ME",
-    "NVTK.ME",
-    "Orange",
-    "PKN",
-    "PLZL.ME",
-    "PUMA",
-    "Quilter",
-    "RACE",
-    "REP",
-    "RHM",
-    "ROSN.ME",
-    "SBER.ME",
-    "SNGS.ME",
-    "SONY",
-    "TATN.ME",
-    "TM",
-    "TUI",
-    "Tullow",
-    "VOD",
-    "VTBR.ME"
+  "review": [
+    {
+      "ticker": "ULVR.L",
+      "ex": "2026-11-12",
+      "amount": 0.3907,
+      "currency": "GBP",
+      "reason": "Verify units before storing"
+    }
   ],
-  "note": "Only verified mappings; one future dividend per ticker. Amounts require review."
+  "pending_symbol_verification": {
+    "ASML": "ASML.AS",
+    "COMMERZBANK": "CBK.XETRA",
+    "Centrica": "CNA.LSE",
+    "Danone": "BN.PA",
+    "EASYJET": "EZJ.LSE",
+    "Glencore": "GLEN.LSE",
+    "HSBC": "HSBA.LSE",
+    "IBE": "IBE.MC",
+    "IWG": "IWG.LSE",
+    "LUFTHANSA": "LHA.XETRA",
+    "Orange": "ORA.PA",
+    "PUMA": "PUM.XETRA",
+    "Quilter": "QLT.LSE",
+    "RHM": "RHM.XETRA",
+    "TUI": "TUI1.XETRA",
+    "VOD": "VOD.LSE"
+  },
+  "added": 1,
+  "enriched": 0,
+  "total_stored": 18,
+  "mapped_instruments": 34
 }
