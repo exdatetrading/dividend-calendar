@@ -1,0 +1,108 @@
+{
+  "date": "2026-11-03",
+  "checked": [
+    {
+      "ticker": "ABDN",
+      "symbol": "ABDN.LSE",
+      "events": 0
+    },
+    {
+      "ticker": "ADS.DE",
+      "symbol": "ADS.XETRA",
+      "events": 0
+    },
+    {
+      "ticker": "AF.PA",
+      "symbol": "AF.PA",
+      "events": 0
+    },
+    {
+      "ticker": "AI.PA",
+      "symbol": "AI.PA",
+      "events": 0
+    },
+    {
+      "ticker": "AIR.PA",
+      "symbol": "AIR.PA",
+      "events": 0
+    },
+    {
+      "ticker": "ALV.DE",
+      "symbol": "ALV.XETRA",
+      "events": 0
+    },
+    {
+      "ticker": "BA.L",
+      "symbol": "BA.LSE",
+      "events": 1
+    },
+    {
+      "ticker": "BARC.L",
+      "symbol": "BARC.LSE",
+      "events": 0
+    },
+    {
+      "ticker": "BAS.DE",
+      "symbol": "BAS.XETRA",
+      "events": 0
+    },
+    {
+      "ticker": "BAYN.DE",
+      "symbol": "BAYN.XETRA",
+      "events": 0
+    }
+  ],
+  "changed": [],
+  "review": [],
+  "errors": [],
+  "unmapped_non_us": [
+    "ASML",
+    "AFLT.ME",
+    "Assura",
+    "BABA",
+    "Bollore",
+    "Bouygues",
+    "CHMF.ME",
+    "COMMERZBANK",
+    "Centrica",
+    "Danone",
+    "EASYJET",
+    "GAZP.ME",
+    "GMKN.ME",
+    "Glencore",
+    "HSBC",
+    "Hammerson",
+    "IBE",
+    "IWG",
+    "LKOH.ME",
+    "LUFTHANSA",
+    "MGNT.ME",
+    "MVID.ME",
+    "NVTK.ME",
+    "Orange",
+    "PKN",
+    "PLZL.ME",
+    "PUMA",
+    "Quilter",
+    "RACE",
+    "REP",
+    "RHM",
+    "RNO.PA",
+    "ROSN.ME",
+    "RR.L",
+    "SBER.ME",
+    "SBRY.L",
+    "SNGS.ME",
+    "SONY",
+    "TATN.ME",
+    "TM",
+    "TSCO.L",
+    "TTE.PA",
+    "TUI",
+    "Tullow",
+    "ULVR.L",
+    "VOD",
+    "VTBR.ME"
+  ],
+  "note": "Only explicitly mapped symbols. No speculative dates. One dividend event per ticker."
+}
