@@ -186,10 +186,11 @@
     "market": "США",
     "ex": "2026-11-18",
     "exAdr": "—",
-    "pay": "Не объявлена дата",
+    "pay": "2026-12-10",
     "amount": "1.78",
     "currency": "USD",
-    "source": "https://www.dividend101.com/ex-dividend-calendar"
+    "source": "https://financialmodelingprep.com/stable/dividends-calendar",
+    "dataStatus": "FMP provider data — verify issuer announcement"
   },
   {
     "ticker": "MSFT",
@@ -595,8 +596,8 @@
     "ex": "2026-12-04",
     "exAdr": "—",
     "pay": "2026-12-24",
-    "amount": "",
-    "currency": "",
+    "amount": "0.32",
+    "currency": "USD",
     "source": "https://financialmodelingprep.com/stable/dividends-calendar",
     "dataStatus": "FMP provider data — verify issuer announcement"
   },
@@ -1112,8 +1113,8 @@
     "ex": "2026-12-04",
     "exAdr": "—",
     "pay": "2026-12-17",
-    "amount": "",
-    "currency": "",
+    "amount": "0.18",
+    "currency": "USD",
     "source": "https://financialmodelingprep.com/stable/dividends-calendar",
     "dataStatus": "FMP provider data — verify issuer announcement"
   },
@@ -1149,8 +1150,8 @@
     "ex": "2026-12-07",
     "exAdr": "—",
     "pay": "2026-12-14",
-    "amount": "",
-    "currency": "",
+    "amount": "0.22",
+    "currency": "USD",
     "source": "https://financialmodelingprep.com/stable/dividends-calendar",
     "dataStatus": "FMP provider data — verify issuer announcement"
   },
@@ -1174,8 +1175,8 @@
     "ex": "2026-12-02",
     "exAdr": "—",
     "pay": "2026-12-30",
-    "amount": "",
-    "currency": "",
+    "amount": "5",
+    "currency": "USD",
     "source": "https://financialmodelingprep.com/stable/dividends-calendar",
     "dataStatus": "FMP provider data — verify issuer announcement"
   },

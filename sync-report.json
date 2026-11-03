@@ -1,0 +1,90 @@
+{
+  "checked_at_utc_date": "2026-11-03",
+  "window": [
+    "2026-10-04",
+    "2027-05-02"
+  ],
+  "instruments": 182,
+  "api_events": 34,
+  "changed": [
+    {
+      "ticker": "CVX",
+      "before": {
+        "ex": "2026-11-18",
+        "pay": "Не объявлена дата",
+        "amount": "1.78",
+        "currency": "USD"
+      },
+      "after": {
+        "ex": "2026-11-18",
+        "pay": "2026-12-10",
+        "amount": "1.78",
+        "currency": "USD"
+      }
+    },
+    {
+      "ticker": "BAC",
+      "before": {
+        "ex": "2026-12-04",
+        "pay": "2026-12-24",
+        "amount": "",
+        "currency": ""
+      },
+      "after": {
+        "ex": "2026-12-04",
+        "pay": "2026-12-24",
+        "amount": "0.32",
+        "currency": "USD"
+      }
+    },
+    {
+      "ticker": "GM",
+      "before": {
+        "ex": "2026-12-04",
+        "pay": "2026-12-17",
+        "amount": "",
+        "currency": ""
+      },
+      "after": {
+        "ex": "2026-12-04",
+        "pay": "2026-12-17",
+        "amount": "0.18",
+        "currency": "USD"
+      }
+    },
+    {
+      "ticker": "GOOGL",
+      "before": {
+        "ex": "2026-12-07",
+        "pay": "2026-12-14",
+        "amount": "",
+        "currency": ""
+      },
+      "after": {
+        "ex": "2026-12-07",
+        "pay": "2026-12-14",
+        "amount": "0.22",
+        "currency": "USD"
+      }
+    },
+    {
+      "ticker": "GS",
+      "before": {
+        "ex": "2026-12-02",
+        "pay": "2026-12-30",
+        "amount": "",
+        "currency": ""
+      },
+      "after": {
+        "ex": "2026-12-02",
+        "pay": "2026-12-30",
+        "amount": "5",
+        "currency": "USD"
+      }
+    }
+  ],
+  "manual_review": [],
+  "no_matching_api_event": 161,
+  "unchanged": 16,
+  "note": "FMP coverage varies. No API match does not mean no dividend. One event per ticker in data.json."
+}
