@@ -1,0 +1,45 @@
+name: Test EODHD dividend access
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test dividend endpoints (read only)
+        env:
+          EODHD_API_KEY: ${{ secrets.EODHD_API_KEY }}
+        run: |
+          python - <<'PY'
+          import json, os, urllib.request, urllib.parse, urllib.error
+          token = os.environ.get('EODHD_API_KEY', '').strip()
+          if not token:
+              raise SystemExit('ERROR: EODHD_API_KEY secret is missing')
+          tests = [('BMW Germany', 'BMW.XETRA'), ('Barclays UK', 'BARC.LSE'), ('Apple US', 'AAPL.US')]
+          for label, symbol in tests:
+              params = urllib.parse.urlencode({'api_token': token, 'fmt': 'json', 'from': '2026-01-01', 'to': '2027-12-31'})
+              url = 'https://eodhd.com/api/div/' + urllib.parse.quote(symbol) + '?' + params
+              try:
+                  req = urllib.request.Request(url, headers={'User-Agent': 'ExDateTrading-EODHD-Test/1.0'})
+                  with urllib.request.urlopen(req, timeout=25) as response:
+                      raw = response.read(300000).decode('utf-8', 'replace')
+                      status = response.status
+                  data = json.loads(raw)
+                  if isinstance(data, list):
+                      print(f'{label} [{symbol}]: HTTP {status}, dividend records={len(data)}')
+                      if data:
+                          print('  Sample field names:', ', '.join(sorted(data[0].keys())))
+                  elif isinstance(data, dict):
+                      print(f'{label} [{symbol}]: HTTP {status}, response is object (may indicate an API limitation)')
+                      print('  Field names:', ', '.join(sorted(data.keys())[:10]))
+                  else:
+                      print(f'{label} [{symbol}]: HTTP {status}, unexpected response format')
+              except urllib.error.HTTPError as e:
+                  print(f'{label} [{symbol}]: HTTP {e.code} (access, quota, or symbol issue)')
+              except Exception as e:
+                  print(f'{label} [{symbol}]: request failed: {type(e).__name__}')
+          PY
