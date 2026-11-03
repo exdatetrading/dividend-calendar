@@ -1,3 +1,35 @@
+"""Ex-Date Trading: Telegram notifications from data.json."""
+import html
+import json
+import os
+from datetime import date, datetime, timedelta
+from pathlib import Path
+from urllib.parse import urlencode
+from urllib.request import Request, urlopen
+from zoneinfo import ZoneInfo
+
+ROOT = Path(__file__).resolve().parents[1]
+NOW = datetime.now(ZoneInfo('America/New_York'))
+CALENDAR_URL = 'https://exdatetrading.github.io/dividend-calendar/'
+NOTE = '🕒 Даты — по календарю соответствующей биржи. Для акций США ориентир: SHORT перед закрытием предыдущей сессии, закрытие SHORT в первые минуты после открытия в ex-date. Даты предварительные; проверяйте биржевые праздники, объявления эмитентов, возможность шорта и расходы по дивиденду.'
+
+
+def valid_date(value):
+    try:
+        return date.fromisoformat(value)
+    except (ValueError, TypeError):
+        return None
+
+
+def trading_day(day):
+    # Approximate US weekday calendar; non-US exchanges may have other holidays.
+    # Must be replaced with exchange-specific calendars before relying on timings.
+    if day.weekday() >= 5 or (day.month, day.day) in ((1, 1), (12, 25)):
+        return False
+    if day.month == 11 and day.weekday() == 3 and 22 <= day.day <= 28:
+        return False
+    return True
+
 
 def adjacent_day(day, step):
     for _ in range(14):
@@ -26,7 +58,7 @@ def events():
             'ex': ex,
             'ex_adr': valid_date(item.get('exAdr')),
             'open': adjacent_day(ex, -1),
-            'close': adjacent_day(ex, 1),
+            'close': ex,
         })
     return sorted(result, key=lambda x: (x['ex'], x['ticker']))
 
@@ -82,9 +114,9 @@ def monthly(all_events):
     blocks = []
     for e in selected:
         block = (f'📍 {item_label(e)}\n'
-                 f'🟢 Открытие: <b>{e["open"]:%d.%m}</b>\n'
+                 f'🔴 SHORT · перед закрытием: <b>{e["open"]:%d.%m}</b>\n'
                  f'📅 Ex-date: <b>{e["ex"]:%d.%m}</b>\n'
-                 f'🔴 Закрытие: <b>{e["close"]:%d.%m}</b>\n')
+                 f'🟢 Закрытие · после открытия: <b>{e["close"]:%d.%m}</b>\n')
         if e['ex_adr']:
             block += f'ADR/ADS: {e["ex_adr"]:%d.%m}\n'
         blocks.append(block + '\n')
@@ -95,7 +127,7 @@ def monthly(all_events):
         result = send(part)
         if first_id is None:
             first_id = result['message_id']
- api('pinChatMessage', chat_id=os.environ['TELEGRAM_CHAT_ID'],
+    api('pinChatMessage', chat_id=os.environ['TELEGRAM_CHAT_ID'],
         message_id=first_id, disable_notification='true')
     print(f'Monthly posted and pinned; events={len(selected)}')
 
@@ -103,9 +135,9 @@ def monthly(all_events):
 def daily(all_events):
     today = NOW.date()
     groups = [
-        ('🟢 <b>ПЛАНОВОЕ ОТКРЫТИЕ</b>', [e for e in all_events if e['open'] == today], 'ex'),
+        ('🔴 <b>ОТКРЫТИЕ SHORT · ПЕРЕД ЗАКРЫТИЕМ РЫНКА</b>', [e for e in all_events if e['open'] == today], 'ex'),
         ('📅 <b>EX-DIVIDEND СЕГОДНЯ</b>', [e for e in all_events if e['ex'] == today], 'ex'),
-        ('🔴 <b>ПЛАНОВОЕ ЗАКРЫТИЕ</b>', [e for e in all_events if e['close'] == today], 'ex'),
+        ('🟢 <b>ЗАКРЫТИЕ SHORT · ПОСЛЕ ОТКРЫТИЯ РЫНКА</b>', [e for e in all_events if e['close'] == today], 'ex'),
     ]
     if not any(group for _, group, _ in groups):
         print('No events today')
