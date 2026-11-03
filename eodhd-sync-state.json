@@ -1,5 +1,6 @@
 {
-  "offset": 10,
-  "mapped_instruments": 28,
+  "offset": 20,
+  "next_ticker": "III.L",
+  "mapped_instruments": 34,
   "daily_request_cap": 10
 }

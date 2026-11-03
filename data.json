@@ -714,12 +714,13 @@
     "platform": "BP",
     "name": "BP",
     "market": "Европа",
-    "ex": "Не объявлена дата",
+    "ex": "2026-11-12",
     "exAdr": "—",
-    "pay": "Не объявлена дата",
+    "pay": "2026-12-18",
     "amount": "",
     "currency": "",
-    "source": "https://finance.yahoo.com/quote/BP.L/history/"
+    "source": "https://eodhd.com/api/div/BP.LSE",
+    "dataStatus": "EODHD provider data — verify issuer announcement"
   },
   {
     "ticker": "BRK.A",

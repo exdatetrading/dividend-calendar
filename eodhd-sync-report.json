@@ -1,59 +1,136 @@
 {
   "date": "2026-11-03",
+  "window": {
+    "from": "2026-09-19",
+    "to": "2027-11-08"
+  },
+  "mapped_instruments": 34,
+  "request_limit": 10,
   "checked": [
     {
-      "ticker": "ABDN",
-      "symbol": "ABDN.LSE",
-      "events": 0
+      "ticker": "BMW.DE",
+      "symbol": "BMW.XETRA",
+      "events": 0,
+      "future_events": 0,
+      "provider_dates": [],
+      "existing_ex": "Не объявлена дата",
+      "decision": "no_future_events"
     },
     {
-      "ticker": "ADS.DE",
-      "symbol": "ADS.XETRA",
-      "events": 0
+      "ticker": "BNP.PA",
+      "symbol": "BNP.PA",
+      "events": 1,
+      "future_events": 0,
+      "provider_dates": [],
+      "existing_ex": "Не объявлена дата",
+      "decision": "no_future_events"
     },
     {
-      "ticker": "AF.PA",
-      "symbol": "AF.PA",
-      "events": 0
+      "ticker": "BP.L",
+      "symbol": "BP.LSE",
+      "events": 1,
+      "future_events": 1,
+      "provider_dates": [
+        "2026-11-12"
+      ],
+      "existing_ex": "Не объявлена дата",
+      "decision": "updated"
     },
     {
-      "ticker": "AI.PA",
-      "symbol": "AI.PA",
-      "events": 0
+      "ticker": "BT-A.L",
+      "symbol": "BT-A.LSE",
+      "events": 0,
+      "future_events": 0,
+      "provider_dates": [],
+      "existing_ex": "Не объявлена дата",
+      "decision": "no_future_events"
     },
     {
-      "ticker": "AIR.PA",
-      "symbol": "AIR.PA",
-      "events": 0
+      "ticker": "CS.PA",
+      "symbol": "CS.PA",
+      "events": 0,
+      "future_events": 0,
+      "provider_dates": [],
+      "existing_ex": "Не объявлена дата",
+      "decision": "no_future_events"
     },
     {
-      "ticker": "ALV.DE",
-      "symbol": "ALV.XETRA",
-      "events": 0
+      "ticker": "DBK.DE",
+      "symbol": "DBK.XETRA",
+      "events": 0,
+      "future_events": 0,
+      "provider_dates": [],
+      "existing_ex": "Не объявлена дата",
+      "decision": "no_future_events"
     },
     {
-      "ticker": "BA.L",
-      "symbol": "BA.LSE",
-      "events": 1
+      "ticker": "DHL.DE",
+      "symbol": "DHL.XETRA",
+      "events": 0,
+      "future_events": 0,
+      "provider_dates": [],
+      "existing_ex": "Не объявлена дата",
+      "decision": "no_future_events"
     },
     {
-      "ticker": "BARC.L",
-      "symbol": "BARC.LSE",
-      "events": 0
+      "ticker": "EOAN.DE",
+      "symbol": "EOAN.XETRA",
+      "events": 0,
+      "future_events": 0,
+      "provider_dates": [],
+      "existing_ex": "Не объявлена дата",
+      "decision": "no_future_events"
     },
     {
-      "ticker": "BAS.DE",
-      "symbol": "BAS.XETRA",
-      "events": 0
+      "ticker": "GSK.L",
+      "symbol": "GSK.LSE",
+      "events": 1,
+      "future_events": 1,
+      "provider_dates": [
+        "2026-11-12"
+      ],
+      "existing_ex": "2026-11-12",
+      "decision": "already_current"
     },
     {
-      "ticker": "BAYN.DE",
-      "symbol": "BAYN.XETRA",
-      "events": 0
+      "ticker": "IAG.L",
+      "symbol": "IAG.LSE",
+      "events": 0,
+      "future_events": 0,
+      "provider_dates": [],
+      "existing_ex": "Не объявлена дата",
+      "decision": "no_future_events"
     }
   ],
-  "changed": [],
-  "review": [],
+  "changed": [
+    {
+      "ticker": "BP.L",
+      "symbol": "BP.LSE",
+      "before": {
+        "ex": "Не объявлена дата",
+        "pay": "Не объявлена дата",
+        "amount": "",
+        "currency": ""
+      },
+      "after": {
+        "ex": "2026-11-12",
+        "pay": "2026-12-18",
+        "amount": "",
+        "currency": ""
+      }
+    }
+  ],
+  "review": [
+    {
+      "ticker": "BP.L",
+      "reason": "Provider amount/currency differ; verify units",
+      "provider_amount": 0.0866,
+      "provider_currency": "GBP",
+      "stored_amount": "",
+      "stored_currency": "",
+      "ex_date": "2026-11-12"
+    }
+  ],
   "errors": [],
   "unmapped_non_us": [
     "ASML",
@@ -87,22 +164,16 @@
     "RACE",
     "REP",
     "RHM",
-    "RNO.PA",
     "ROSN.ME",
-    "RR.L",
     "SBER.ME",
-    "SBRY.L",
     "SNGS.ME",
     "SONY",
     "TATN.ME",
     "TM",
-    "TSCO.L",
-    "TTE.PA",
     "TUI",
     "Tullow",
-    "ULVR.L",
     "VOD",
     "VTBR.ME"
   ],
-  "note": "Only explicitly mapped symbols. No speculative dates. One dividend event per ticker."
+  "note": "Only verified mappings; one future dividend per ticker. Amounts require review."
 }
