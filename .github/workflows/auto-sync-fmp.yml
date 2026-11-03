@@ -1,0 +1,46 @@
+name: Auto-update FMP dividends
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 7 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: exdate-dividend-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Sync missing US dates from FMP
+        env:
+          FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
+        run: python scripts/sync_fmp.py
+      - name: Upload comparison report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fmp-sync-report
+          path: fmp_sync_report.json
+          if-no-files-found: ignore
+      - name: Commit updated calendar
+        run: |
+          if git diff --quiet -- data.json; then
+            echo "No calendar changes"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data.json
+          git commit -m "Update missing US ex-dividend dates from FMP"
+          git push
