@@ -592,12 +592,13 @@
     "platform": "BAC",
     "name": "BAC",
     "market": "США",
-    "ex": "Не объявлена дата",
+    "ex": "2026-12-04",
     "exAdr": "—",
-    "pay": "Не объявлена дата",
+    "pay": "2026-12-24",
     "amount": "",
     "currency": "",
-    "source": "https://stockanalysis.com/stocks/bac/dividend/"
+    "source": "https://financialmodelingprep.com/stable/dividends-calendar",
+    "dataStatus": "FMP provider data — verify issuer announcement"
   },
   {
     "ticker": "BARC.L",
@@ -1108,12 +1109,13 @@
     "platform": "GM",
     "name": "GM",
     "market": "США",
-    "ex": "Не объявлена дата",
+    "ex": "2026-12-04",
     "exAdr": "—",
-    "pay": "Не объявлена дата",
+    "pay": "2026-12-17",
     "amount": "",
     "currency": "",
-    "source": "https://stockanalysis.com/stocks/gm/dividend/"
+    "source": "https://financialmodelingprep.com/stable/dividends-calendar",
+    "dataStatus": "FMP provider data — verify issuer announcement"
   },
   {
     "ticker": "GME",
@@ -1144,12 +1146,13 @@
     "platform": "GOOGLE",
     "name": "Alphabet",
     "market": "США",
-    "ex": "Не объявлена дата",
+    "ex": "2026-12-07",
     "exAdr": "—",
-    "pay": "Не объявлена дата",
+    "pay": "2026-12-14",
     "amount": "",
     "currency": "",
-    "source": "https://stockanalysis.com/stocks/googl/dividend/"
+    "source": "https://financialmodelingprep.com/stable/dividends-calendar",
+    "dataStatus": "FMP provider data — verify issuer announcement"
   },
   {
     "ticker": "GPRO",
@@ -1168,12 +1171,13 @@
     "platform": "GS",
     "name": "GS",
     "market": "США",
-    "ex": "Не объявлена дата",
+    "ex": "2026-12-02",
     "exAdr": "—",
-    "pay": "Не объявлена дата",
+    "pay": "2026-12-30",
     "amount": "",
     "currency": "",
-    "source": "https://stockanalysis.com/stocks/gs/dividend/"
+    "source": "https://financialmodelingprep.com/stable/dividends-calendar",
+    "dataStatus": "FMP provider data — verify issuer announcement"
   },
   {
     "ticker": "GSK.L",
