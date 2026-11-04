@@ -40,6 +40,26 @@
     "sourceUrl": "https://financialmodelingprep.com/stable/dividends-calendar"
   },
   {
+    "ticker": "AAPL",
+    "ex": "2026-11-12",
+    "pay": "2026-11-16",
+    "amount": "0.27",
+    "currency": "USD",
+    "source": "https://financialmodelingprep.com/stable/dividends-calendar",
+    "provider": "FMP",
+    "sourceUrl": "https://financialmodelingprep.com/stable/dividends-calendar"
+  },
+  {
+    "ticker": "SBRY.L",
+    "ex": "2026-11-12",
+    "pay": "2026-12-18",
+    "amount": "",
+    "currency": "",
+    "source": "https://eodhd.com/api/div/SBRY.LSE",
+    "provider": "EODHD",
+    "sourceUrl": "https://eodhd.com/api/div/SBRY.LSE"
+  },
+  {
     "ticker": "ULVR.L",
     "ex": "2026-11-12",
     "pay": "2026-12-18",
@@ -170,6 +190,16 @@
     "sourceUrl": "https://financialmodelingprep.com/stable/dividends-calendar"
   },
   {
+    "ticker": "TTE.PA",
+    "ex": "2026-12-31",
+    "pay": "2027-01-05",
+    "amount": "",
+    "currency": "",
+    "source": "https://eodhd.com/api/div/TTE.PA",
+    "provider": "EODHD",
+    "sourceUrl": "https://eodhd.com/api/div/TTE.PA"
+  },
+  {
     "ticker": "ABBV",
     "ex": "2027-01-15",
     "pay": "2027-02-16",
@@ -178,5 +208,15 @@
     "source": "https://financialmodelingprep.com/stable/dividends-calendar",
     "provider": "FMP",
     "sourceUrl": "https://financialmodelingprep.com/stable/dividends-calendar"
+  },
+  {
+    "ticker": "TTE.PA",
+    "ex": "2027-03-31",
+    "pay": "2027-04-02",
+    "amount": "",
+    "currency": "",
+    "source": "https://eodhd.com/api/div/TTE.PA",
+    "provider": "EODHD",
+    "sourceUrl": "https://eodhd.com/api/div/TTE.PA"
   }
 ]

@@ -1,6 +1,6 @@
 {
-  "offset": 30,
-  "next_ticker": "TSCO.L",
+  "offset": 6,
+  "next_ticker": "BA.L",
   "mapped_instruments": 34,
   "daily_request_cap": 10
 }
