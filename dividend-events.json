@@ -50,6 +50,16 @@
     "sourceUrl": "https://financialmodelingprep.com/stable/dividends-calendar"
   },
   {
+    "ticker": "BP.L",
+    "ex": "2026-11-12",
+    "pay": "2026-12-18",
+    "amount": "",
+    "currency": "",
+    "source": "https://eodhd.com/api/div/BP.LSE",
+    "provider": "EODHD",
+    "sourceUrl": "https://eodhd.com/api/div/BP.LSE"
+  },
+  {
     "ticker": "SBRY.L",
     "ex": "2026-11-12",
     "pay": "2026-12-18",

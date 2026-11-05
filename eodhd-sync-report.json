@@ -1,23 +1,51 @@
 {
-  "date": "2026-11-04",
+  "date": "2026-11-05",
   "checked": [
     {
-      "ticker": "TSCO.L",
-      "symbol": "TSCO.LSE",
+      "ticker": "BA.L",
+      "symbol": "BA.LSE",
       "events": 1,
       "future": 0,
       "dates": []
     },
     {
-      "ticker": "RR.L",
-      "symbol": "RR.LSE",
+      "ticker": "BARC.L",
+      "symbol": "BARC.LSE",
       "events": 0,
       "future": 0,
       "dates": []
     },
     {
-      "ticker": "SBRY.L",
-      "symbol": "SBRY.LSE",
+      "ticker": "BAS.DE",
+      "symbol": "BAS.XETRA",
+      "events": 0,
+      "future": 0,
+      "dates": []
+    },
+    {
+      "ticker": "BAYN.DE",
+      "symbol": "BAYN.XETRA",
+      "events": 0,
+      "future": 0,
+      "dates": []
+    },
+    {
+      "ticker": "BMW.DE",
+      "symbol": "BMW.XETRA",
+      "events": 0,
+      "future": 0,
+      "dates": []
+    },
+    {
+      "ticker": "BNP.PA",
+      "symbol": "BNP.PA",
+      "events": 1,
+      "future": 0,
+      "dates": []
+    },
+    {
+      "ticker": "BP.L",
+      "symbol": "BP.LSE",
       "events": 1,
       "future": 1,
       "dates": [
@@ -25,53 +53,22 @@
       ]
     },
     {
-      "ticker": "TTE.PA",
-      "symbol": "TTE.PA",
-      "events": 3,
-      "future": 2,
-      "dates": [
-        "2026-12-31",
-        "2027-03-31"
-      ]
-    },
-    {
-      "ticker": "ABDN",
-      "symbol": "ABDN.LSE",
+      "ticker": "BT-A.L",
+      "symbol": "BT-A.LSE",
       "events": 0,
       "future": 0,
       "dates": []
     },
     {
-      "ticker": "ADS.DE",
-      "symbol": "ADS.XETRA",
+      "ticker": "CS.PA",
+      "symbol": "CS.PA",
       "events": 0,
       "future": 0,
       "dates": []
     },
     {
-      "ticker": "AF.PA",
-      "symbol": "AF.PA",
-      "events": 0,
-      "future": 0,
-      "dates": []
-    },
-    {
-      "ticker": "AI.PA",
-      "symbol": "AI.PA",
-      "events": 0,
-      "future": 0,
-      "dates": []
-    },
-    {
-      "ticker": "AIR.PA",
-      "symbol": "AIR.PA",
-      "events": 0,
-      "future": 0,
-      "dates": []
-    },
-    {
-      "ticker": "ALV.DE",
-      "symbol": "ALV.XETRA",
+      "ticker": "DBK.DE",
+      "symbol": "DBK.XETRA",
       "events": 0,
       "future": 0,
       "dates": []
@@ -80,24 +77,10 @@
   "errors": [],
   "review": [
     {
-      "ticker": "SBRY.L",
+      "ticker": "BP.L",
       "ex": "2026-11-12",
-      "amount": 0.041,
+      "amount": 0.0866,
       "currency": "GBP",
-      "reason": "Verify units before storing"
-    },
-    {
-      "ticker": "TTE.PA",
-      "ex": "2026-12-31",
-      "amount": 0.9,
-      "currency": "EUR",
-      "reason": "Verify units before storing"
-    },
-    {
-      "ticker": "TTE.PA",
-      "ex": "2027-03-31",
-      "amount": 0.9,
-      "currency": "EUR",
       "reason": "Verify units before storing"
     }
   ],
@@ -119,8 +102,8 @@
     "TUI": "TUI1.XETRA",
     "VOD": "VOD.LSE"
   },
-  "added": 3,
+  "added": 1,
   "enriched": 0,
-  "total_stored": 22,
+  "total_stored": 23,
   "mapped_instruments": 34
 }
