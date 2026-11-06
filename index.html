@@ -3,133 +3,117 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b1324">
 <title>Ex-Date Trading | Дивидендный календарь</title>
-
-<link rel="icon" href="./favicon.ico?v=2" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png?v=2">
+<link rel="icon" href="./favicon.ico?v=3" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png?v=3">
 <link rel="apple-touch-icon" sizes="180x180" href="./favicon-180.png">
-
 <style>
-:root {
-  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: #ecf3ff;
-  background: #0b1324;
-}
-* { box-sizing: border-box; }
-body { margin: 0; }
-main { max-width: 750px; margin: auto; padding: 24px 16px 50px; }
-.eyebrow { font-size: 11px; letter-spacing: 2px; color: #78a8e8; font-weight: 700; }
-.head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-h1 { font-size: 26px; margin: 8px 0 5px; letter-spacing: -.7px; }
-p { color: #98a8bf; line-height: 1.5; }
-.pill { border: 1px solid #2a3d59; background: #17253b; border-radius: 99px; padding: 8px 12px; color: #c3d5ed; font-size: 12px; }
-.controls { display: flex; gap: 8px; margin: 23px 0 18px; flex-wrap: wrap; }
-button { cursor: pointer; font: inherit; }
-button.tab { background: #15243a; border: 1px solid #263953; color: #aabbd2; padding: 10px 15px; border-radius: 12px; }
-button.tab.active { background: #2563eb; color: #fff; border-color: #2563eb; }
-.month { display: flex; align-items: center; justify-content: space-between; margin: 14px 0; }
-.month h2 { font-size: 20px; text-transform: capitalize; margin: 0; }
-.arrow { background: #17263e; border: 1px solid #293e5a; color: white; width: 38px; height: 38px; border-radius: 10px; font-size: 23px; }
-.calendar { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 5px; }
-.weekday { text-align: center; color: #8397b1; font-size: 12px; padding: 10px 0; }
-.day { height: 64px; border: 1px solid #1e2d44; background: #121e31; border-radius: 11px; color: #dce8fa; text-align: left; padding: 9px 7px; position: relative; }
-.day.empty { border-color: transparent; background: transparent; }
-.day.has { border-color: #335477; background: #1a304b; }
-.day.selected { border-color: #62a4ff; background: #1a4b8c; }
-.num { font-size: 13px; font-weight: 600; }
-.dot { position: absolute; bottom: 9px; left: 9px; width: 6px; height: 6px; border-radius: 50%; background: #61d4ad; }
-.count { position: absolute; bottom: 7px; right: 7px; font-size: 10px; color: #9fc4f5; }
-.section { margin-top: 24px; }
-.sectionhead { display: flex; justify-content: space-between; align-items: center; }
-.sectionhead h3 { font-size: 17px; }
-.muted { color: #8fa3be; font-size: 13px; }
-.item { background: #142238; border: 1px solid #273a54; border-radius: 15px; padding: 16px; margin: 10px 0; }
-.itemtop { display: flex; justify-content: space-between; align-items: start; gap: 12px; }
-.ticker { font-size: 19px; font-weight: 800; }
-.market { font-size: 11px; color: #a3b7d3; background: #223751; padding: 5px 9px; border-radius: 8px; }
-.name { color: #99abc4; font-size: 13px; margin: 4px 0 12px; }
-.meta { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 13px; }
-.meta small { display: block; color: #8196b2; margin-bottom: 5px; }
-.meta strong { font-size: 14px; font-weight: 600; }
-.source { display: inline-block; margin-top: 14px; color: #80b6ff; font-size: 12px; text-decoration: none; }
-.note { font-size: 12px; color: #93a5bc; line-height: 1.6; margin-top: 20px; }
-.search { width: 100%; background: #142238; border: 1px solid #293d59; color: white; border-radius: 12px; padding: 12px 14px; font: inherit; outline: none; }
-.emptymsg { color: #8ca1bb; padding: 22px; text-align: center; border: 1px dashed #2a3b54; border-radius: 12px; }
-.footer { margin-top: 28px; border-top: 1px solid #253650; padding-top: 18px; color: #7388a3; font-size: 11px; }
-a { color: #8dbaff; }
-@media(max-width:370px) {
-  .day { height: 53px; padding: 6px; }
-  .count { display: none; }
-  .meta { gap: 7px; }
+:root{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#ecf3ff;background:#0b1324}
+*{box-sizing:border-box}
+body{margin:0}
+main{max-width:750px;margin:auto;padding:24px 16px 50px}
+.eyebrow{font-size:11px;letter-spacing:2px;color:#78a8e8;font-weight:700}
+.head{display:flex;justify-content:space-between;align-items:center;gap:8px}
+h1{font-size:26px;margin:8px 0 5px;letter-spacing:-.7px}
+p{color:#98a8bf;line-height:1.5}
+.pill{border:1px solid #2a3d59;background:#17253b;border-radius:99px;padding:8px 12px;color:#c3d5ed;font-size:12px}
+.controls{display:flex;gap:8px;margin:23px 0 18px;flex-wrap:wrap}
+button{cursor:pointer;font:inherit}
+button.tab{background:#15243a;border:1px solid #263953;color:#aabbd2;padding:10px 15px;border-radius:12px}
+button.tab.active{background:#2563eb;color:#fff;border-color:#2563eb}
+.month{display:flex;align-items:center;justify-content:space-between;margin:14px 0}
+.month h2{font-size:20px;text-transform:capitalize;margin:0}
+.arrow{background:#17263e;border:1px solid #293e5a;color:white;width:38px;height:38px;border-radius:10px;font-size:23px}
+.calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}
+.weekday{text-align:center;color:#8397b1;font-size:12px;padding:10px 0}
+.day{height:64px;border:1px solid #1e2d44;background:#121e31;border-radius:11px;color:#dce8fa;text-align:left;padding:9px 7px;position:relative}
+.day.empty{border-color:transparent;background:transparent}
+.day.has{border-color:#335477;background:#1a304b}
+.day.selected{border-color:#62a4ff;background:#1a4b8c}
+.num{font-size:13px;font-weight:600}
+.dot{position:absolute;bottom:9px;left:9px;width:6px;height:6px;border-radius:50%;background:#61d4ad}
+.count{position:absolute;bottom:7px;right:7px;font-size:10px;color:#9fc4f5}
+.section{margin-top:24px}
+.sectionhead{display:flex;justify-content:space-between;align-items:center}
+.sectionhead h3{font-size:17px}
+.muted{color:#8fa3be;font-size:13px}
+.item{background:#142238;border:1px solid #273a54;border-radius:15px;padding:16px;margin:10px 0}
+.itemtop{display:flex;justify-content:space-between;align-items:start;gap:12px}
+.ticker{font-size:19px;font-weight:800}
+.market{font-size:11px;color:#a3b7d3;background:#223751;padding:5px 9px;border-radius:8px}
+.name{color:#99abc4;font-size:13px;margin:4px 0 12px}
+.meta{display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px}
+.meta small{display:block;color:#8196b2;margin-bottom:5px}
+.meta strong{font-size:14px;font-weight:600}
+.source{display:inline-block;margin-top:14px;color:#80b6ff;font-size:12px;text-decoration:none}
+.note{font-size:12px;color:#93a5bc;line-height:1.6;margin-top:20px}
+.search{width:100%;background:#142238;border:1px solid #293d59;color:white;border-radius:12px;padding:12px 14px;font:inherit;outline:none}
+.emptymsg{color:#8ca1bb;padding:22px;text-align:center;border:1px dashed #2a3b54;border-radius:12px}
+.footer{margin-top:28px;border-top:1px solid #253650;padding-top:18px;color:#7388a3;font-size:11px}
+a{color:#8dbaff}
+@media(max-width:370px){
+.day{height:53px;padding:6px}
+.count{display:none}
+.meta{gap:7px}
 }
 </style>
 </head>
 <body>
 <main>
-  <div class="head">
-    <div>
-      <div class="eyebrow">EX-DATE TRADING</div>
-      <h1>Календарь сделок</h1>
-    </div>
-    <span class="pill" id="yearPill">2026</span>
+<div class="head">
+  <div>
+    <div class="eyebrow">DIVIDEND CALENDAR</div>
+    <h1>Календарь сделок</h1>
   </div>
-
-  <p>Ex-dividend даты и выплаты по акциям США и Европы</p>
-
-  <div class="controls">
-    <button class="tab active" data-market="all">Все</button>
-    <button class="tab" data-market="us">США</button>
-    <button class="tab" data-market="eu">Европа</button>
+  <span class="pill" id="yearPill">2026</span>
+</div>
+<p>Ex-dividend даты и выплаты по акциям США и Европы</p>
+<div class="controls">
+  <button class="tab active" data-market="all">Все</button>
+  <button class="tab" data-market="us">США</button>
+  <button class="tab" data-market="eu">Европа</button>
+</div>
+<div class="month">
+  <button class="arrow" id="prev" aria-label="Предыдущий месяц">‹</button>
+  <h2 id="monthLabel"></h2>
+  <button class="arrow" id="next" aria-label="Следующий месяц">›</button>
+</div>
+<div class="calendar" id="calendar"></div>
+<div class="section">
+  <div class="sectionhead">
+    <h3 id="dayLabel"></h3>
+    <span class="muted" id="resultCount"></span>
   </div>
-
-  <div class="month">
-    <button class="arrow" id="prev" aria-label="Предыдущий месяц">‹</button>
-    <h2 id="monthLabel"></h2>
-    <button class="arrow" id="next" aria-label="Следующий месяц">›</button>
-  </div>
-
-  <div class="calendar" id="calendar"></div>
-
-  <div class="section">
-    <div class="sectionhead">
-      <h3 id="dayLabel"></h3>
-      <span class="muted" id="resultCount"></span>
-    </div>
-    <input class="search" id="search"
-      placeholder="Поиск по тикеру или компании"
-      aria-label="Поиск по акциям">
-    <div id="list"></div>
-  </div>
-
-  <div class="note">
-    Данные могут быть предварительными. Проверяйте Ex-dividend даты
-    по официальным источникам перед сделкой. Покупка до Ex-dividend
-    не гарантирует прибыль: цена акции может снизиться на сумму дивиденда.
-    Для получения дивиденда позиция обычно должна быть открыта
-    до Ex-dividend даты.
-  </div>
-
-  <div class="footer">
-    Открытый календарь · Время торгов зависит от биржи ·
-    Информация не является индивидуальной инвестиционной рекомендацией
-  </div>
+  <input class="search" id="search" placeholder="Поиск по тикеру или компании" aria-label="Поиск по акциям">
+  <div id="list"></div>
+</div>
+<div class="note">
+  Данные импортированы из рабочего Excel и могут быть предварительными.
+  Проверяйте Ex-dividend даты по официальным источникам перед сделкой.
+  Покупка до Ex-dividend не гарантирует прибыль: цена акции может снизиться
+  на сумму дивиденда. Для получения дивиденда позиция обычно должна
+  быть открыта до Ex-dividend даты.
+</div>
+<div class="footer">
+  Открытый календарь · Время торгов зависит от биржи ·
+  Информация не является индивидуальной инвестиционной рекомендацией
+</div>
 </main>
-
 <script>
 let STOCKS = [];
 
 const MONTHS = [
-  'январь', 'февраль', 'март', 'апрель',
-  'май', 'июнь', 'июль', 'август',
-  'сентябрь', 'октябрь', 'ноябрь', 'декабрь'
+  'январь','февраль','март','апрель',
+  'май','июнь','июль','август',
+  'сентябрь','октябрь','ноябрь','декабрь'
 ];
 
-const today = new Date();
-let year = today.getFullYear();
-let month = today.getMonth();
-let selected = today.getDate();
+const now = new Date();
+let year = now.getFullYear();
+let month = now.getMonth();
+let selected = now.getDate();
 let market = 'all';
 let search = '';
 
@@ -146,30 +130,30 @@ function marketOf(s) {
 function matches(s) {
   return (
     (market === 'all' || marketOf(s) === market) &&
-    (!search || [s.ticker, s.platform, s.name]
+    (!search || [s.ticker,s.platform,s.name]
       .join(' ').toLowerCase().includes(search))
   );
 }
 
-function onDate(s, d) {
-  return s.ex === d || (valid(s.exAdr) && s.exAdr === d);
+function onDate(s,d) {
+  return s.ex === d;
 }
 
 function dateStr(d) {
-  return `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+  return `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
 }
 
 function filtered(d) {
-  return STOCKS.filter(s => matches(s) && onDate(s, dateStr(d)));
+  return STOCKS.filter(s => matches(s) && onDate(s,dateStr(d)));
 }
 
 function esc(s) {
-  return String(s ?? '').replace(/[&<>"']/g, c => ({
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#39;'
+  return String(s ?? '').replace(/[&<>"']/g,c => ({
+    '&':'&amp;',
+    '<':'&lt;',
+    '>':'&gt;',
+    '"':'&quot;',
+    "'":'&#39;'
   }[c]));
 }
 
@@ -183,32 +167,31 @@ function render() {
   $('yearPill').textContent = year;
   $('monthLabel').textContent = MONTHS[month] + ' ' + year;
 
-  document.querySelectorAll('[data-market]').forEach(b => {
-    b.classList.toggle('active', b.dataset.market === market);
-  });
+  document.querySelectorAll('[data-market]').forEach(b =>
+    b.classList.toggle('active',b.dataset.market === market)
+  );
 
-  const first = (new Date(year, month, 1).getDay() + 6) % 7;
-  const last = new Date(year, month + 1, 0).getDate();
+  const first = (new Date(year,month,1).getDay()+6)%7;
+  const last = new Date(year,month+1,0).getDate();
 
-  let html = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
+  let markup = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс']
     .map(d => `<div class="weekday">${d}</div>`).join('');
 
-  for (let i = 0; i < first; i++) {
-    html += '<div class="day empty"></div>';
+  for(let i=0;i<first;i++) {
+    markup += '<div class="day empty"></div>';
   }
 
-  for (let d = 1; d <= last; d++) {
+  for(let d=1;d<=last;d++) {
     const n = filtered(d).length;
-    html += `
-      <button class="day ${n ? 'has' : ''} ${d === selected ? 'selected' : ''}"
-        data-day="${d}"
-        aria-label="${d} ${MONTHS[month]}, ${n} событий">
+    markup += `
+      <button class="day ${n?'has':''} ${d===selected?'selected':''}"
+        data-day="${d}" aria-label="${d} ${MONTHS[month]}, ${n} акций">
         <span class="num">${d}</span>
-        ${n ? `<span class="dot"></span><span class="count">${n}</span>` : ''}
+        ${n ? '<span class="dot"></span><span class="count">'+n+'</span>' : ''}
       </button>`;
   }
 
-  $('calendar').innerHTML = html;
+  $('calendar').innerHTML = markup;
 
   document.querySelectorAll('[data-day]').forEach(b => {
     b.onclick = () => {
@@ -220,7 +203,7 @@ function render() {
   $('dayLabel').textContent = `${selected} ${MONTHS[month]}`;
 
   const arr = filtered(selected);
-  $('resultCount').textContent = arr.length + ' событий';
+  $('resultCount').textContent = arr.length + ' акций';
 
   $('list').innerHTML = arr.length
     ? arr.map(s => `
@@ -228,12 +211,10 @@ function render() {
         <div class="itemtop">
           <div class="ticker">${esc(s.ticker)}</div>
           <div class="market">
-            ${marketOf(s) === 'us' ? 'США' : 'Европа / другие'}
+            ${marketOf(s)==='us'?'США':'Европа / другие'}
           </div>
         </div>
-
         <div class="name">${esc(s.name)}</div>
-
         <div class="meta">
           <div>
             <small>Ex-dividend</small>
@@ -252,58 +233,62 @@ function render() {
             <strong>${clean(s.platform)}</strong>
           </div>
         </div>
-
-        ${/^https?:\/\//.test(s.source || '')
+        <div class="note">
+          ${s.provider
+            ? `Источник API: ${esc(s.provider)} · последнее получение: ${clean(s.lastSeen || 'неизвестно')}`
+            : 'Предварительная дата из исходной базы · требует проверки'}
+        </div>
+        ${/^https?:\/\//.test(s.source||'')
           ? `<a class="source" target="_blank"
-               rel="noopener noreferrer"
-               href="${esc(s.source)}">Источник данных ↗</a>`
+              rel="noopener noreferrer"
+              href="${esc(s.source)}">Источник данных ↗</a>`
           : ''}
       </article>
     `).join('')
-    : '<div class="emptymsg">На выбранную дату событий нет</div>';
+    : '<div class="emptymsg">На выбранную дату акций нет</div>';
 }
 
 $('prev').onclick = () => {
   month--;
-  if (month < 0) {
-    month = 11;
+  if(month<0) {
+    month=11;
     year--;
   }
-  selected = 1;
+  selected=1;
   render();
 };
 
 $('next').onclick = () => {
   month++;
-  if (month > 11) {
-    month = 0;
+  if(month>11) {
+    month=0;
     year++;
   }
-  selected = 1;
+  selected=1;
   render();
 };
 
 document.querySelectorAll('[data-market]').forEach(b => {
   b.onclick = () => {
-    market = b.dataset.market;
+    market=b.dataset.market;
     render();
   };
 });
 
 $('search').oninput = e => {
-  search = e.target.value.toLowerCase().trim();
+  search=e.target.value.toLowerCase().trim();
   render();
 };
 
 async function loadStocks() {
   try {
-    const [baseResponse, extraResponse] = await Promise.all([
-      fetch('./data.json?ts=' + Date.now()),
-      fetch('./dividend-events.json?ts=' + Date.now())
+    const [baseResponse,extraResponse] = await Promise.all([
+      fetch('data.json?ts='+Date.now()),
+      fetch('dividend-events.json?ts='+Date.now())
     ]);
 
-    if (!baseResponse.ok) {
-      throw new Error('Не удалось загрузить data.json');
+    if(!baseResponse.ok) {
+      throw Error('Не удалось загрузить data.json');
     }
 
     const base = await baseResponse.json();
@@ -311,42 +296,44 @@ async function loadStocks() {
       ? await extraResponse.json()
       : [];
 
-    if (!Array.isArray(base) || !Array.isArray(extra)) {
-      throw new Error('Неверный формат данных календаря');
+    if(!Array.isArray(base) || !Array.isArray(extra)) {
+      throw Error('Неверный формат JSON');
     }
 
     const byTicker = new Map(
-      base.map(x => [String(x.ticker || '').toUpperCase(), x])
+      base.map(x => [String(x.ticker).toUpperCase(),x])
     );
 
     const seen = new Set();
     STOCKS = [];
 
-    for (const e of [...extra, ...base]) {
-      const t = String(e.ticker || '').toUpperCase();
-      const key = t + '|' + e.ex;
+    for(const e of [...extra,...base]) {
+      const t = String(e.ticker||'').toUpperCase();
+      const key = t+'|'+e.ex;
 
-      if (!t || seen.has(key)) continue;
+      if(!t || !valid(e.ex) || seen.has(key)) {
+        continue;
+      }
+
       seen.add(key);
 
-      const b = byTicker.get(t) || {};
+      const b = byTicker.get(t)||{};
 
       STOCKS.push({
         ...b,
         ...e,
-        name: b.name || e.name || t,
-        platform: b.platform || e.platform || t,
-        market: b.market || e.market || '',
-        source: e.sourceUrl || e.source || b.source || ''
+        name:b.name||e.name||t,
+        platform:b.platform||t,
+        market:b.market||e.market||'',
+        source:e.sourceUrl||e.source||b.source||''
       });
     }
 
     render();
-
-  } catch (err) {
+  } catch(err) {
     $('list').innerHTML =
-      '<div class="emptymsg">Ошибка загрузки: ' +
-      esc(err.message) + '</div>';
+      '<div class="emptymsg">Ошибка загрузки: '+
+      esc(err.message)+'</div>';
   }
 }
 
