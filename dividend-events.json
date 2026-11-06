@@ -60,6 +60,16 @@
     "sourceUrl": "https://eodhd.com/api/div/BP.LSE"
   },
   {
+    "ticker": "GSK.L",
+    "ex": "2026-11-12",
+    "pay": "2027-01-07",
+    "amount": "",
+    "currency": "",
+    "source": "https://eodhd.com/api/div/GSK.LSE",
+    "provider": "EODHD",
+    "sourceUrl": "https://eodhd.com/api/div/GSK.LSE"
+  },
+  {
     "ticker": "SBRY.L",
     "ex": "2026-11-12",
     "pay": "2026-12-18",

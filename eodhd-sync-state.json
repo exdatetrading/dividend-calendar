@@ -1,6 +1,6 @@
 {
-  "offset": 16,
-  "next_ticker": "DHL.DE",
+  "offset": 26,
+  "next_ticker": "SIE.DE",
   "mapped_instruments": 34,
   "daily_request_cap": 10
 }
