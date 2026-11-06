@@ -3,7 +3,7 @@
   "api_events": 34,
   "matched_events": 18,
   "added": 0,
-  "enriched": 0,
-  "total_stored": 23,
+  "enriched": 18,
+  "total_stored": 24,
   "note": "Additional events stored separately. Legacy data.json unchanged. USD assumed for US listings; verify issuer and dividend units."
 }
