@@ -17,13 +17,46 @@ concurrency:
 jobs:
   notify:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Publish monthly plan and daily approved trades
+
+      - name: Calculate New York date
+        id: day
+        run: |
+          echo "date=$(TZ=America/New_York date +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+
+      - name: Check if already published
+        id: published
+        uses: actions/cache/restore@v4
+        with:
+          path: .notification-sent
+          key: telegram-daily-v3-${{ steps.day.outputs.date }}
+
+      - name: Publish notifications
+        if: steps.published.outputs.cache-hit != 'true'
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: python scripts/send.py
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
+        run: |
+          python scripts/send.py
+
+      - name: Mark as published
+        if: steps.published.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p .notification-sent
+          echo "${{ steps.day.outputs.date }}" > .notification-sent/date.txt
+
+      - name: Save publication marker
+        if: steps.published.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: .notification-sent
+          key: telegram-daily-v3-${{ steps.day.outputs.date }}
