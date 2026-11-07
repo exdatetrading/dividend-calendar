@@ -1,6 +1,6 @@
 {
-  "offset": 2,
-  "next_ticker": "AF.PA",
+  "offset": 12,
+  "next_ticker": "BP.L",
   "mapped_instruments": 34,
   "daily_request_cap": 10
 }

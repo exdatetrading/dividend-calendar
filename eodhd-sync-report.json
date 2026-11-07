@@ -1,115 +1,79 @@
 {
-  "date": "2026-11-06",
+  "date": "2026-11-07",
   "checked": [
     {
-      "ticker": "SIE.DE",
-      "symbol": "SIE.XETRA",
+      "ticker": "AF.PA",
+      "symbol": "AF.PA",
       "events": 0,
       "future": 0,
       "dates": []
     },
     {
-      "ticker": "VOW3.DE",
-      "symbol": "VOW3.XETRA",
+      "ticker": "AI.PA",
+      "symbol": "AI.PA",
       "events": 0,
       "future": 0,
       "dates": []
     },
     {
-      "ticker": "RNO.PA",
-      "symbol": "RNO.PA",
+      "ticker": "AIR.PA",
+      "symbol": "AIR.PA",
       "events": 0,
       "future": 0,
       "dates": []
     },
     {
-      "ticker": "ULVR.L",
-      "symbol": "ULVR.LSE",
-      "events": 1,
-      "future": 1,
-      "dates": [
-        "2026-11-12"
-      ]
+      "ticker": "ALV.DE",
+      "symbol": "ALV.XETRA",
+      "events": 0,
+      "future": 0,
+      "dates": []
     },
     {
-      "ticker": "TSCO.L",
-      "symbol": "TSCO.LSE",
+      "ticker": "BA.L",
+      "symbol": "BA.LSE",
       "events": 1,
       "future": 0,
       "dates": []
     },
     {
-      "ticker": "RR.L",
-      "symbol": "RR.LSE",
+      "ticker": "BARC.L",
+      "symbol": "BARC.LSE",
       "events": 0,
       "future": 0,
       "dates": []
     },
     {
-      "ticker": "SBRY.L",
-      "symbol": "SBRY.LSE",
+      "ticker": "BAS.DE",
+      "symbol": "BAS.XETRA",
+      "events": 0,
+      "future": 0,
+      "dates": []
+    },
+    {
+      "ticker": "BAYN.DE",
+      "symbol": "BAYN.XETRA",
+      "events": 0,
+      "future": 0,
+      "dates": []
+    },
+    {
+      "ticker": "BMW.DE",
+      "symbol": "BMW.XETRA",
+      "events": 0,
+      "future": 0,
+      "dates": []
+    },
+    {
+      "ticker": "BNP.PA",
+      "symbol": "BNP.PA",
       "events": 1,
-      "future": 1,
-      "dates": [
-        "2026-11-12"
-      ]
-    },
-    {
-      "ticker": "TTE.PA",
-      "symbol": "TTE.PA",
-      "events": 3,
-      "future": 2,
-      "dates": [
-        "2026-12-31",
-        "2027-03-31"
-      ]
-    },
-    {
-      "ticker": "ABDN",
-      "symbol": "ABDN.LSE",
-      "events": 0,
-      "future": 0,
-      "dates": []
-    },
-    {
-      "ticker": "ADS.DE",
-      "symbol": "ADS.XETRA",
-      "events": 0,
       "future": 0,
       "dates": []
     }
   ],
   "errors": [],
-  "review": [
-    {
-      "ticker": "ULVR.L",
-      "ex": "2026-11-12",
-      "amount": 0.3907,
-      "currency": "GBP",
-      "reason": "Verify units before storing"
-    },
-    {
-      "ticker": "SBRY.L",
-      "ex": "2026-11-12",
-      "amount": 0.041,
-      "currency": "GBP",
-      "reason": "Verify units before storing"
-    },
-    {
-      "ticker": "TTE.PA",
-      "ex": "2026-12-31",
-      "amount": 0.9,
-      "currency": "EUR",
-      "reason": "Verify units before storing"
-    },
-    {
-      "ticker": "TTE.PA",
-      "ex": "2027-03-31",
-      "amount": 0.9,
-      "currency": "EUR",
-      "reason": "Verify units before storing"
-    }
-  ],
+  "review": [],
   "pending_symbol_verification": {
     "ASML": "ASML.AS",
     "COMMERZBANK": "CBK.XETRA",
@@ -129,7 +93,7 @@
     "VOD": "VOD.LSE"
   },
   "added": 0,
-  "enriched": 4,
+  "enriched": 0,
   "total_stored": 24,
   "mapped_instruments": 34
 }
