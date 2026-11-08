@@ -1,6 +1,6 @@
 {
-  "offset": 12,
-  "next_ticker": "BP.L",
+  "offset": 22,
+  "next_ticker": "LSEG.L",
   "mapped_instruments": 34,
   "daily_request_cap": 10
 }
