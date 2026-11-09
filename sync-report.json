@@ -1,9 +1,9 @@
 {
-  "date": "2026-11-08",
-  "api_events": 34,
+  "date": "2026-11-09",
+  "api_events": 32,
   "matched_events": 15,
   "added": 0,
   "enriched": 15,
-  "total_stored": 24,
+  "total_stored": 25,
   "note": "Additional events stored separately. Legacy data.json unchanged. USD assumed for US listings; verify issuer and dividend units."
 }

@@ -1,9 +1,58 @@
 {
-  "date": "2026-11-08",
+  "date": "2026-11-09",
   "checked": [
     {
-      "ticker": "BP.L",
-      "symbol": "BP.LSE",
+      "ticker": "LSEG.L",
+      "symbol": "LSEG.LSE",
+      "events": 0,
+      "future": 0,
+      "dates": []
+    },
+    {
+      "ticker": "FRAS.L",
+      "symbol": "FRAS.LSE",
+      "events": 0,
+      "future": 0,
+      "dates": []
+    },
+    {
+      "ticker": "SHEL.L",
+      "symbol": "SHEL.LSE",
+      "events": 0,
+      "future": 0,
+      "dates": []
+    },
+    {
+      "ticker": "RIO.L",
+      "symbol": "RIO.LSE",
+      "events": 0,
+      "future": 0,
+      "dates": []
+    },
+    {
+      "ticker": "SIE.DE",
+      "symbol": "SIE.XETRA",
+      "events": 0,
+      "future": 0,
+      "dates": []
+    },
+    {
+      "ticker": "VOW3.DE",
+      "symbol": "VOW3.XETRA",
+      "events": 0,
+      "future": 0,
+      "dates": []
+    },
+    {
+      "ticker": "RNO.PA",
+      "symbol": "RNO.PA",
+      "events": 0,
+      "future": 0,
+      "dates": []
+    },
+    {
+      "ticker": "ULVR.L",
+      "symbol": "ULVR.LSE",
       "events": 1,
       "future": 1,
       "dates": [
@@ -11,68 +60,15 @@
       ]
     },
     {
-      "ticker": "BT-A.L",
-      "symbol": "BT-A.LSE",
-      "events": 0,
-      "future": 0,
-      "dates": []
-    },
-    {
-      "ticker": "CS.PA",
-      "symbol": "CS.PA",
-      "events": 0,
-      "future": 0,
-      "dates": []
-    },
-    {
-      "ticker": "DBK.DE",
-      "symbol": "DBK.XETRA",
-      "events": 0,
-      "future": 0,
-      "dates": []
-    },
-    {
-      "ticker": "DHL.DE",
-      "symbol": "DHL.XETRA",
-      "events": 0,
-      "future": 0,
-      "dates": []
-    },
-    {
-      "ticker": "EOAN.DE",
-      "symbol": "EOAN.XETRA",
-      "events": 0,
-      "future": 0,
-      "dates": []
-    },
-    {
-      "ticker": "GSK.L",
-      "symbol": "GSK.LSE",
+      "ticker": "TSCO.L",
+      "symbol": "TSCO.LSE",
       "events": 1,
-      "future": 1,
-      "dates": [
-        "2026-11-12"
-      ]
-    },
-    {
-      "ticker": "IAG.L",
-      "symbol": "IAG.LSE",
-      "events": 1,
-      "future": 1,
-      "dates": [
-        "2026-12-03"
-      ]
-    },
-    {
-      "ticker": "III.L",
-      "symbol": "III.LSE",
-      "events": 0,
       "future": 0,
       "dates": []
     },
     {
-      "ticker": "LLOY.L",
-      "symbol": "LLOY.LSE",
+      "ticker": "RR.L",
+      "symbol": "RR.LSE",
       "events": 0,
       "future": 0,
       "dates": []
@@ -81,23 +77,9 @@
   "errors": [],
   "review": [
     {
-      "ticker": "BP.L",
+      "ticker": "ULVR.L",
       "ex": "2026-11-12",
-      "amount": 0.0866,
-      "currency": "GBP",
-      "reason": "Verify units before storing"
-    },
-    {
-      "ticker": "GSK.L",
-      "ex": "2026-11-12",
-      "amount": 0.17,
-      "currency": "GBP",
-      "reason": "Verify units before storing"
-    },
-    {
-      "ticker": "IAG.L",
-      "ex": "2026-12-03",
-      "amount": 0.053,
+      "amount": 0.3907,
       "currency": "GBP",
       "reason": "Verify units before storing"
     }
@@ -120,8 +102,8 @@
     "TUI": "TUI1.XETRA",
     "VOD": "VOD.LSE"
   },
-  "added": 1,
-  "enriched": 2,
+  "added": 0,
+  "enriched": 1,
   "total_stored": 25,
   "mapped_instruments": 34
 }
