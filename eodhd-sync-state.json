@@ -1,6 +1,6 @@
 {
-  "offset": 32,
-  "next_ticker": "SBRY.L",
+  "offset": 8,
+  "next_ticker": "BAS.DE",
   "mapped_instruments": 34,
   "daily_request_cap": 10
 }
