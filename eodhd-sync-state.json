@@ -1,6 +1,6 @@
 {
-  "offset": 8,
-  "next_ticker": "BAS.DE",
+  "offset": 18,
+  "next_ticker": "GSK.L",
   "mapped_instruments": 34,
   "daily_request_cap": 10
 }
