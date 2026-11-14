@@ -1,6 +1,6 @@
 {
-  "offset": 4,
-  "next_ticker": "AIR.PA",
+  "offset": 14,
+  "next_ticker": "CS.PA",
   "mapped_instruments": 34,
   "daily_request_cap": 10
 }
