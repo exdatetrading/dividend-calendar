@@ -1,6 +1,6 @@
 {
-  "offset": 24,
-  "next_ticker": "SHEL.L",
+  "offset": 0,
+  "next_ticker": "ABDN",
   "mapped_instruments": 34,
   "daily_request_cap": 10
 }
