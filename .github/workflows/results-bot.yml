@@ -1,0 +1,29 @@
+name: EX-DATE Results Bot
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '*/5 * * * *'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: exdate-results-bot
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Process Telegram messages
+        env:
+          RESULTS_BOT_TOKEN: ${{ secrets.RESULTS_BOT_TOKEN }}
+        run: python scripts/results_bot.py
