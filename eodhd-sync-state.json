@@ -1,6 +1,6 @@
 {
-  "offset": 0,
-  "next_ticker": "ABDN",
+  "offset": 10,
+  "next_ticker": "BMW.DE",
   "mapped_instruments": 34,
   "daily_request_cap": 10
 }
