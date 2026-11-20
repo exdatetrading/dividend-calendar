@@ -151,7 +151,7 @@
     "source": "https://financialmodelingprep.com/stable/dividends-calendar",
     "provider": "FMP",
     "sourceUrl": "https://financialmodelingprep.com/stable/dividends-calendar",
-    "lastSeen": "2026-11-19"
+    "lastSeen": "2026-11-20"
   },
   {
     "ticker": "III.L",
@@ -173,7 +173,7 @@
     "source": "https://financialmodelingprep.com/stable/dividends-calendar",
     "provider": "FMP",
     "sourceUrl": "https://financialmodelingprep.com/stable/dividends-calendar",
-    "lastSeen": "2026-11-19"
+    "lastSeen": "2026-11-20"
   },
   {
     "ticker": "LMT",
@@ -184,7 +184,7 @@
     "source": "https://financialmodelingprep.com/stable/dividends-calendar",
     "provider": "FMP",
     "sourceUrl": "https://financialmodelingprep.com/stable/dividends-calendar",
-    "lastSeen": "2026-11-19"
+    "lastSeen": "2026-11-20"
   },
   {
     "ticker": "GS",
@@ -195,7 +195,7 @@
     "source": "https://financialmodelingprep.com/stable/dividends-calendar",
     "provider": "FMP",
     "sourceUrl": "https://financialmodelingprep.com/stable/dividends-calendar",
-    "lastSeen": "2026-11-19"
+    "lastSeen": "2026-11-20"
   },
   {
     "ticker": "NVDA",
@@ -206,7 +206,7 @@
     "source": "https://financialmodelingprep.com/stable/dividends-calendar",
     "provider": "FMP",
     "sourceUrl": "https://financialmodelingprep.com/stable/dividends-calendar",
-    "lastSeen": "2026-11-19"
+    "lastSeen": "2026-11-20"
   },
   {
     "ticker": "IAG.L",
@@ -228,7 +228,7 @@
     "source": "https://financialmodelingprep.com/stable/dividends-calendar",
     "provider": "FMP",
     "sourceUrl": "https://financialmodelingprep.com/stable/dividends-calendar",
-    "lastSeen": "2026-11-19"
+    "lastSeen": "2026-11-20"
   },
   {
     "ticker": "GM",
@@ -239,7 +239,18 @@
     "source": "https://financialmodelingprep.com/stable/dividends-calendar",
     "provider": "FMP",
     "sourceUrl": "https://financialmodelingprep.com/stable/dividends-calendar",
-    "lastSeen": "2026-11-19"
+    "lastSeen": "2026-11-20"
+  },
+  {
+    "ticker": "PEP",
+    "ex": "2026-12-04",
+    "pay": "2027-01-06",
+    "amount": "1.48",
+    "currency": "USD",
+    "source": "https://financialmodelingprep.com/stable/dividends-calendar",
+    "provider": "FMP",
+    "sourceUrl": "https://financialmodelingprep.com/stable/dividends-calendar",
+    "lastSeen": "2026-11-20"
   },
   {
     "ticker": "PYPL",
@@ -250,7 +261,7 @@
     "source": "https://financialmodelingprep.com/stable/dividends-calendar",
     "provider": "FMP",
     "sourceUrl": "https://financialmodelingprep.com/stable/dividends-calendar",
-    "lastSeen": "2026-11-19"
+    "lastSeen": "2026-11-20"
   },
   {
     "ticker": "GOOGL",
@@ -261,7 +272,7 @@
     "source": "https://financialmodelingprep.com/stable/dividends-calendar",
     "provider": "FMP",
     "sourceUrl": "https://financialmodelingprep.com/stable/dividends-calendar",
-    "lastSeen": "2026-11-19"
+    "lastSeen": "2026-11-20"
   },
   {
     "ticker": "WMT",
@@ -272,7 +283,7 @@
     "source": "https://financialmodelingprep.com/stable/dividends-calendar",
     "provider": "FMP",
     "sourceUrl": "https://financialmodelingprep.com/stable/dividends-calendar",
-    "lastSeen": "2026-11-19"
+    "lastSeen": "2026-11-20"
   },
   {
     "ticker": "DIS",
@@ -283,7 +294,7 @@
     "source": "https://financialmodelingprep.com/stable/dividends-calendar",
     "provider": "FMP",
     "sourceUrl": "https://financialmodelingprep.com/stable/dividends-calendar",
-    "lastSeen": "2026-11-19"
+    "lastSeen": "2026-11-20"
   },
   {
     "ticker": "TTE.PA",
@@ -294,7 +305,7 @@
     "source": "https://eodhd.com/api/div/TTE.PA",
     "provider": "EODHD",
     "sourceUrl": "https://eodhd.com/financial-apis/",
-    "lastSeen": "2026-11-16"
+    "lastSeen": "2026-11-20"
   },
   {
     "ticker": "CSCO",
@@ -305,7 +316,7 @@
     "source": "https://financialmodelingprep.com/stable/dividends-calendar",
     "provider": "FMP",
     "sourceUrl": "https://financialmodelingprep.com/stable/dividends-calendar",
-    "lastSeen": "2026-11-19"
+    "lastSeen": "2026-11-20"
   },
   {
     "ticker": "ABBV",
@@ -316,7 +327,7 @@
     "source": "https://financialmodelingprep.com/stable/dividends-calendar",
     "provider": "FMP",
     "sourceUrl": "https://financialmodelingprep.com/stable/dividends-calendar",
-    "lastSeen": "2026-11-19"
+    "lastSeen": "2026-11-20"
   },
   {
     "ticker": "TTE.PA",
@@ -327,6 +338,6 @@
     "source": "https://eodhd.com/api/div/TTE.PA",
     "provider": "EODHD",
     "sourceUrl": "https://eodhd.com/financial-apis/",
-    "lastSeen": "2026-11-16"
+    "lastSeen": "2026-11-20"
   }
 ]
